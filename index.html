@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>DerFlash</title>
+</head>
+<body> 
+    <div class="container">
+        <div class="splash" style="
+                display:flex;
+                width: 100%;
+                height: 100vh;
+                background: rgb(115, 20, 223);
+                position: absolute;
+                top: 0;
+                z-index: 10;
+                left: 0;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;">
+               <span class="name" style="color: #fff;font-size:2rem">DerFlash</span>
+               <div class="loader-c" style="margin-top: 4rem">
+                   <div class="loader"></div>
+               </div>
+        </div>
+
+
+        <div class="__log">
+               <div class="logo-name">
+                   <span>DerFlash</span>
+               </div>
+              <div class="log-options">
+                   <button class="login-btn" onclick="document.querySelector('.__log').className='__log login'">Entrar</button>
+                   <button class="signin-btn" onclick="document.querySelector('.__log').className='__log signin'">Registrar</button>
+              </div>
+
+              <div class="log-loader">
+                  <div class="loader"></div>
+              </div>
+
+              <div class="log-container">
+
+                     <div class="login">
+                          <span class="title">Entrar</span>
+                          <input class="email" type="text" placeholder="Email">
+                          <input class="password" type="password" placeholder="Senha">
+                          <button class="send" onclick="login()">Entrar</button>
+                          <div class="text-c">
+                            <span class="forgot-pw" onclick="document.querySelector('.__log').className='__log forgot-password'">Esqueci senha</span>
+                            <span class="switch" onclick="document.querySelector('.__log').className='__log signin'">Registrar</span>
+                          </div>
+                          <span class="msg"></span>
+                     </div>
+
+                     <div class="signin">
+                        <span class="title">Registrar</span>
+                        <input class="name" type="text" placeholder="Nome">
+                        <input class="email" type="text" placeholder="Email">
+                        <input class="password" type="password" placeholder="Senha">
+                        <button class="send" onclick="signup()">Registrar</button>
+                        <div class="text-c">
+                          <span class="switch" onclick="document.querySelector('.__log').className='__log login'">Login</span>
+                        </div>
+                        <span class="msg"></span>
+                   </div>
+
+                   <div class="confirm-email">
+                        <span class="title">Insira o código enviado para <label class="_email"></label></span>
+                        <input class="code" type="text" placeholder="Código">
+                        <button class="send" onclick="confirm_email()">Registrar</button>
+                        <div class="text-c">
+                                <span class="switch" onclick="document.querySelector('.__log').className='__log signin'">Mudar email</span>
+                         </div>
+                         <span class="msg"></span>
+                   </div>
+
+                   <div class="forgot-password">
+                        <span class="title">Recuperar conta</span>
+                        <input class="email" type="text" placeholder="Email">
+                        <button class="send" onclick="recovery_password()">Enviar</button>
+                        <div class="text-c">
+                          <span class="switch" onclick="document.querySelector('.__log').className='__log login'">Login</span>
+                        </div>
+                        <span class="msg"></span>
+                   </div>
+
+                   <div class="new-password">
+                        <span class="title">Nova senha</span>
+                        <input class="password" type="text" placeholder="Nova senha">
+                        <button class="send" onclick="new_password()">Redefinir</button>
+                        <div class="text-c">
+                          <span class="switch" onclick="document.querySelector('.__log').className='__log login'">Login</span>
+                        </div>
+                        <span class="msg"></span>
+                   </div>
+
+                   <div class="confirm-forgot-password">
+                        <span class="title">Insira o código enviado para <label class="_email"></label></span>
+                        <input class="code" type="text" placeholder="Código">
+                        <button class="send" onclick="confirm_forgot_password()">Enviar</button> 
+                        <div class="text-c">
+                                <span class="switch" onclick="document.querySelector('.__log').className='__log forgot-password'">Mudar email</span>
+                         </div>
+                         <span class="msg"></span>
+                   </div>
+              </div>
+        </div>
+
+        <div class="on-process-container">
+            <div class="items">
+                    <div class="item">
+                            <span class="name">A alterar categorias...</span>
+                    </div>
+            </div>
+            <div class="loader-c">
+                    <div class="loader"></div>
+            </div>
+        </div>
+
+        <div class="hidden-content">
+                <input id="copy-to-clipboard" autocomplete="off">
+        </div>
+
+         <div class="pop-ups">
+
+                <div class="tech-info c float">
+                        <span class="title" langs="pt:Informações de Suporte Técnico,,en:IT Info">Como podemos ajudar?</span>
+                        <div class="top-left-bar">
+                        <div class="close-btn" onclick="document.querySelector('.pop-ups .tech-info').classList.remove('show')">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg>
+                        </div> 
+                                
+                       </div>
+                       <div class="info">
+                              <div class="item">
+                                <label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" style="opacity: .5"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>
+                                    <span><a href="mailto:dergacllas@gmail.com" target="_blank">dergacllas@gmail.com</a></span>
+                                </label>
+                                <span class="copy" onclick="copyTechInfo('dergacllas@gmail.com')">Copiar</span>
+                              </div>
+                              <div class="item">
+                                <label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" style="opacity: .5"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+                                    <span><a href="tel:+258872547954" target="_blank">+258 872547954</a></span>
+                                </label>
+                                <span class="copy" onclick="copyTechInfo('258872547954')">Copiar</span>
+                              </div>
+                       </div>
+               </div>
+
+              <div class="tender_preview c float">
+                    <div class="top-left-bar">
+                         <div class="o d">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="24" style="fill:rgba(0, 0, 0, .7)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                         </div>
+                        <div class="close-btn" onclick="document.querySelector('.pop-ups .tender_preview').classList.remove('show')">
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+                        </div> 
+                    </div>
+                    <div class="tender-title"><label></label></div>
+                    <div class="preview">
+                            <div class="loader-c"><div class="loader"></div></div>
+                            <iframe width="100%" height="100%"></iframe>
+                    </div>
+                   
+              </div>
+              <div class="profile c float">
+                    <span class="title">Perfil</span>
+                    <div class="loader"></div>
+                    <div class="top-left-bar">
+                        <div class="close-btn" onclick="document.querySelector('.pop-ups .profile').classList.remove('show')">
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+                        </div> 
+                    </div>
+
+                    <div class="p-content">
+                            <div class="details">
+                                    <div class="_option username">
+                                         <span><label class="res">Dercio Rosario</label><label class="btn" onclick="this.parentElement.parentElement.classList.add('edit')">Alterar</label></span>
+                                         <div class="change">
+                                                <input type="text" class="name" placeholder="Novo nome">
+                                                <button onclick="handle_profile('username')">Alterar</button>
+                                         </div>
+                                         <span onclick="this.parentElement.classList.remove('edit')" class="cancel">Cancelar</span>
+                                    </div>
+
+                                    <div class="_option email">
+                                         <span><label class="res">derciorosario55@gmail.com</label></span>
+                                    </div>
+
+                                    <div class="_option password">
+                                            <span><label class="btn" onclick="this.parentElement.parentElement.classList.add('edit')">Alterar senha</label></span>
+                                            <div class="change">
+                                                   <input type="password" class="last-pw" placeholder="Ultima senha">
+                                                   <input type="password" class="new-pw" placeholder="Novo senha">
+                                                   <button onclick="handle_profile('password')">Alterar</button>
+                                            </div>
+                                            <span class="cancel" onclick="this.parentElement.classList.remove('edit')">Cancelar</span>
+                                    </div>
+                            </div>
+                            
+                    </div>
+
+                    <span class="msg">message</span>
+                    
+              </div>
+
+              <div class="tender __tender c float">
+                <span class="title">Detalhes do concurso</span>
+                <div class="loader"></div>
+                <div class="top-left-bar">
+                    <div class="o d">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="24" style="fill:rgba(0, 0, 0, .7)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                    </div>
+                    <div class="o n">
+                        <svg class="filled" xmlns="http://www.w3.org/2000/svg"  style="fill:rgba(0, 0, 0, .7)" viewBox="0 -960 960 960" width="21"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160ZM480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80Z"/></svg>
+                        <svg class="not-filled" xmlns="http://www.w3.org/2000/svg"  style="fill:rgba(0, 0, 0, .7)" viewBox="0 -960 960 960" width="21"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+                    </div>
+                    <div class="o s">
+                        <svg  class="filled" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="21"  style="fill:rgba(0, 0, 0, .7)"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z"/></svg>
+                        <svg  class="not-filled"  xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="21"  style="fill:rgba(0, 0, 0, .7)"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+                    </div>
+                    <div class="close-btn" onclick="document.querySelector('.pop-ups .tender').classList.remove('show')">
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+                    </div> 
+                </div>
+
+                <div class="p-content">
+                        <div class="details">
+                             <div class="_option">
+                                 <span class="text">Data de inspiracao</span>
+                                 <span class="res">12-09-2023</span>
+                             </div>
+                        </div>
+                </div>
+
+                <div class="options">
+                    <button class="_post" onclick="edit_tender('post')">Post</button><button class="_edit" onclick="edit_tender('edit')">Edit</button><button class="_hide" onclick="edit_tender('hide')">Hide</button>
+                </div>
+                
+          </div>
+
+         </div>
+
+
+         <div class="mobile-menu">
+               <div class="_nav-link active" link_page="tenders">
+                   <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" style="fill:rgba(0, 0, 0, .4)"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
+                   <span>Concursos</span>
+               </div>
+               <div class="_nav-link" link_page="notifications">
+                    <svg class="not_icon"  xmlns="http://www.w3.org/2000/svg" width="21"  viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707A.996.996 0 0 0 3 16v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a.996.996 0 0 0-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707A.996.996 0 0 0 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zm-7 5a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22z"></path></svg>
+                    <span>Notificações<label class="count">2</label></span>
+               </div>
+               <div  class="_nav-link" link_page="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21"  viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M12 16c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm0-6c1.084 0 2 .916 2 2s-.916 2-2 2-2-.916-2-2 .916-2 2-2z"></path><path d="m2.845 16.136 1 1.73c.531.917 1.809 1.261 2.73.73l.529-.306A8.1 8.1 0 0 0 9 19.402V20c0 1.103.897 2 2 2h2c1.103 0 2-.897 2-2v-.598a8.132 8.132 0 0 0 1.896-1.111l.529.306c.923.53 2.198.188 2.731-.731l.999-1.729a2.001 2.001 0 0 0-.731-2.732l-.505-.292a7.718 7.718 0 0 0 0-2.224l.505-.292a2.002 2.002 0 0 0 .731-2.732l-.999-1.729c-.531-.92-1.808-1.265-2.731-.732l-.529.306A8.1 8.1 0 0 0 15 4.598V4c0-1.103-.897-2-2-2h-2c-1.103 0-2 .897-2 2v.598a8.132 8.132 0 0 0-1.896 1.111l-.529-.306c-.924-.531-2.2-.187-2.731.732l-.999 1.729a2.001 2.001 0 0 0 .731 2.732l.505.292a7.683 7.683 0 0 0 0 2.223l-.505.292a2.003 2.003 0 0 0-.731 2.733zm3.326-2.758A5.703 5.703 0 0 1 6 12c0-.462.058-.926.17-1.378a.999.999 0 0 0-.47-1.108l-1.123-.65.998-1.729 1.145.662a.997.997 0 0 0 1.188-.142 6.071 6.071 0 0 1 2.384-1.399A1 1 0 0 0 11 5.3V4h2v1.3a1 1 0 0 0 .708.956 6.083 6.083 0 0 1 2.384 1.399.999.999 0 0 0 1.188.142l1.144-.661 1 1.729-1.124.649a1 1 0 0 0-.47 1.108c.112.452.17.916.17 1.378 0 .461-.058.925-.171 1.378a1 1 0 0 0 .471 1.108l1.123.649-.998 1.729-1.145-.661a.996.996 0 0 0-1.188.142 6.071 6.071 0 0 1-2.384 1.399A1 1 0 0 0 13 18.7l.002 1.3H11v-1.3a1 1 0 0 0-.708-.956 6.083 6.083 0 0 1-2.384-1.399.992.992 0 0 0-1.188-.141l-1.144.662-1-1.729 1.124-.651a1 1 0 0 0 .471-1.108z"></path></svg>
+                     <span>Configurações</span>
+               </div>
+              
+               <div class="_nav-link" link_page="logout" onclick="logout()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21"  viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path><path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path></svg>
+                     <span>Sair</span>
+               </div>
+
+               
+         </div>
+
+
+
+          <div class="left-menu">
+                <div class="top">
+                   <h1>DF<span> Tenders</span></h1>
+                </div>
+                <div class="center">
+                        <div class="_nav-link active" link_page="tenders">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" style="fill:rgba(0, 0, 0, .4)"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
+                            <span>Concursos</span>
+                        </div>
+                        <div class="_nav-link" link_page="notifications">
+                                <svg class="not_icon"  xmlns="http://www.w3.org/2000/svg" width="21"  viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707A.996.996 0 0 0 3 16v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a.996.996 0 0 0-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707A.996.996 0 0 0 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zm-7 5a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22z"></path></svg>
+                                <span>Notificações<label  class="count">2</label></span>
+                        </div>
+                        
+                         <div class="_nav-link" link_page="settings">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="21"  viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M12 16c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm0-6c1.084 0 2 .916 2 2s-.916 2-2 2-2-.916-2-2 .916-2 2-2z"></path><path d="m2.845 16.136 1 1.73c.531.917 1.809 1.261 2.73.73l.529-.306A8.1 8.1 0 0 0 9 19.402V20c0 1.103.897 2 2 2h2c1.103 0 2-.897 2-2v-.598a8.132 8.132 0 0 0 1.896-1.111l.529.306c.923.53 2.198.188 2.731-.731l.999-1.729a2.001 2.001 0 0 0-.731-2.732l-.505-.292a7.718 7.718 0 0 0 0-2.224l.505-.292a2.002 2.002 0 0 0 .731-2.732l-.999-1.729c-.531-.92-1.808-1.265-2.731-.732l-.529.306A8.1 8.1 0 0 0 15 4.598V4c0-1.103-.897-2-2-2h-2c-1.103 0-2 .897-2 2v.598a8.132 8.132 0 0 0-1.896 1.111l-.529-.306c-.924-.531-2.2-.187-2.731.732l-.999 1.729a2.001 2.001 0 0 0 .731 2.732l.505.292a7.683 7.683 0 0 0 0 2.223l-.505.292a2.003 2.003 0 0 0-.731 2.733zm3.326-2.758A5.703 5.703 0 0 1 6 12c0-.462.058-.926.17-1.378a.999.999 0 0 0-.47-1.108l-1.123-.65.998-1.729 1.145.662a.997.997 0 0 0 1.188-.142 6.071 6.071 0 0 1 2.384-1.399A1 1 0 0 0 11 5.3V4h2v1.3a1 1 0 0 0 .708.956 6.083 6.083 0 0 1 2.384 1.399.999.999 0 0 0 1.188.142l1.144-.661 1 1.729-1.124.649a1 1 0 0 0-.47 1.108c.112.452.17.916.17 1.378 0 .461-.058.925-.171 1.378a1 1 0 0 0 .471 1.108l1.123.649-.998 1.729-1.145-.661a.996.996 0 0 0-1.188.142 6.071 6.071 0 0 1-2.384 1.399A1 1 0 0 0 13 18.7l.002 1.3H11v-1.3a1 1 0 0 0-.708-.956 6.083 6.083 0 0 1-2.384-1.399.992.992 0 0 0-1.188-.141l-1.144.662-1-1.729 1.124-.651a1 1 0 0 0 .471-1.108z"></path></svg>
+                                <span>Configurações</span>
+                         </div>
+                 </div>
+                 <div class="bottom">
+                        <div class="_nav-link" onclick="support()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="21"  style="fill:rgba(0, 0, 0, .4)"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-121-80 63-150q-38-13-67.5-41.5T310-421l-150 60q31 71 82 123t117 78Zm-50-378q16-41 45-70t67-42l-60-150q-75 31-127 83.5T160-598l149 60Zm171 178q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm121 200q69-28 120-79.5T800-359l-150-62q-15 42-44.5 70.5T538-310l63 150Zm49-379 150-62q-28-68-79.5-119.5T601-800l-61 150q38 13 66 41.5t44 69.5Z"></path></svg>
+                                <span>Suporte</span>
+                        </div>
+                        <div class="_nav-link" link_page="logout" onclick="logout()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="21"  viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path><path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path></svg>
+                                <span>Sair</span>
+                        </div>
+
+                 </div>
+                
+          </div>
+          <div class="main-dashboard">
+
+             <div class="content tenders" page="tenders">
+                    <div class="top">
+                            <div class="search-container">
+                                   <input  oninput="search_tenders(this.value)" autocomplete="off" type="search" placeholder="Pesquisar (empresa, categoria, 17-08-2023, budget, ...)"> 
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="21" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path></svg>
+                            </div>
+                            <div class="user"onclick="handle_popup('open','profile')">
+                                <!-- <div class="avatar"></div>-->
+                                <span class="username">Dercio Rosario </span>
+                                <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18"><path d="M480-160 160-480l320-320 42 42-248 248h526v60H274l248 248-42 42Z"/></svg>
+                            </div>
+                        </div>
+                        <div class="center">
+                               <div class="_top">
+                                       <div class="title">Concursos</div>
+                                       <div class="options">
+
+                                           <div class="edit-see" style="display: none">
+                                                    <select onchange="search_tenders(document.querySelector('.content.tenders .search-container input').value)">
+                                                            <option value="all">All</option>
+                                                            <option value="posted">Posted</option>
+                                                            <option value="hidden">Hidden</option>
+                                                    </select>
+                                           </div>
+
+                                          <div class="see">
+                                                    <select onchange="search_tenders(document.querySelector('.content.tenders .search-container input').value)">
+                                                            <option value="new">Novos</option>
+                                                            <option value="saved">Salvos</option>
+                                                            <option value="notify">Notificar</option>
+                                                    </select>
+                                           </div>
+
+                                           <div class="cat">
+                                               <!-- <div class="add-cat">
+                                                     <span class="desc-title">Adicionar categoria</span>
+                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, .4)"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path></svg>
+                                                </div>-->
+                                                <select onchange="search_tenders(document.querySelector('.content.tenders .search-container input').value)">
+                                                        <option disabled selected value="">Categorias</option>
+                                                        <option>Todos</option>
+                                                </select>
+                                           </div>
+                                    </div>
+                               </div> 
+                               <div class="_center">
+                                     <div class="items">
+                                         <div class="table_loader"></div>
+
+                                        <!--
+                                          <div class="box">
+                                               <div class="bg" onclick="show_tender_details()"></div>
+                                               <div class="top-options">
+                                                     <span class="category">Construcao</span>
+                                                     <div class="right">
+                                                           <div class="o">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="24" style="fill:rgba(0, 0, 0, .7)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                                                           </div>
+                                                           <div class="o">
+                                                                <svg class="filled" xmlns="http://www.w3.org/2000/svg"  style="fill:rgba(0, 0, 0, .7)" viewBox="0 -960 960 960" width="21"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160ZM480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80Z"/></svg>
+                                                                <svg class="no-filled" xmlns="http://www.w3.org/2000/svg"  style="fill:rgba(0, 0, 0, .7)" viewBox="0 -960 960 960" width="21"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+                                                           </div>
+                                                           <div class="o">
+                                                                <svg  class="filled" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="21"  style="fill:rgba(0, 0, 0, .7)"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z"/></svg>
+                                                                <svg  class="no-filled"  xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="21"  style="fill:rgba(0, 0, 0, .7)"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+                                                            </div>
+                                                           
+                                                  </div>
+                                               </div> 
+
+                                               <div class="details">
+                                                     <span><label class="text">Data de inspiracao</label><label class="res">12-10-2022</label></span>
+                                               </div>
+                                               <div class="empty-div"></div>
+                                               <div class="title-c">
+                                                   <span class="title">Equipamtos de redes e informatica</span>
+                                               </div>
+                                          </div>
+                                        -->
+                                         
+                                     </div>
+                               </div>
+                              
+                        </div> 
+             </div>
+
+
+
+           <div class="content notifications" page="notifications" style="display: none">
+                    <div class="top">
+                            <div class="search-container">
+                                   <input autocomplete="off" type="search" placeholder="Pesquisar" oninput="search_notifications(this.value)"> 
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="21" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path></svg>
+                            </div>
+                            <div class="user" onclick="handle_popup('open','profile')">
+                                <!-- <div class="avatar"></div>-->
+                                <span class="username">Dercio Rosario</span>
+                                <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18"><path d="M480-160 160-480l320-320 42 42-248 248h526v60H274l248 248-42 42Z"/></svg>
+                            </div>
+                        </div>
+                        <div class="center">
+                               <div class="_top">
+                                       <div class="title">Notificações</div>
+                               </div> 
+                               <div class="_center">
+                                    <div class="items">
+                                        <div class="table_loader"></div>
+                                      <!-- <div class="item">
+                                            <div class="__top">
+                                                <span class="date">12/04/2023 12:09</span>
+                                                <span class="cat-c"><label class="cat">Concurso </label><label class="type">- Tecnologia</label></span>
+                                            </div>
+                                            <div class="text">
+                                                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus quisquam rem explicabo ipsam consequatur beatae fuga</p> 
+                                            </div>
+                                            <div class="options">
+                                                 <span class="btn-see">Ver</span>
+                                            </div>
+                                        </div>-->
+
+                                    </div>
+
+                               </div>
+                              
+                        </div> 
+             </div>
+
+
+
+
+             <div class="content settings" page="settings" style="display: none">
+                    <div class="top">
+                            <div class="icons">
+                                <div class="support" onclick="support()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="21"  style="fill:rgba(0, 0, 0, .4)"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-121-80 63-150q-38-13-67.5-41.5T310-421l-150 60q31 71 82 123t117 78Zm-50-378q16-41 45-70t67-42l-60-150q-75 31-127 83.5T160-598l149 60Zm171 178q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm121 200q69-28 120-79.5T800-359l-150-62q-15 42-44.5 70.5T538-310l63 150Zm49-379 150-62q-28-68-79.5-119.5T601-800l-61 150q38 13 66 41.5t44 69.5Z"></path></svg>
+                                        <span>Suporte</span>
+                                </div>
+                            </div>
+                            <div class="user"  onclick="handle_popup('open','profile')">
+                                <!-- <div class="avatar"></div>-->
+                                <span class="username">Dercio Rosario</span>
+                                <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="18"><path d="M480-160 160-480l320-320 42 42-248 248h526v60H274l248 248-42 42Z"/></svg>
+                            </div>
+                        </div>
+                        <div class="center">
+                               <div class="_top">
+                                       <div class="title">Configurações</div>
+                               </div> 
+                               <div class="_center">
+                                  <div class="option receive_nots">
+                                         <span class="title">Receber notificações por email</span>
+                                         <div class="loading">
+                                                <div class="loader"></div>
+                                                <div class="switch active" onclick="settings.email_not()"></div>
+                                         </div>
+                                  </div>
+
+                                  <div class="custom-container _cat">
+
+                                         <span class="sub_title">Preferências de categorias<div class="loader"></div></span>
+                                         <div class="cats">
+                                             <button onclick="settings.cats()">Salvar categorias</button>
+                                             <div class="c">
+                                                <div class="table_loader"></div>
+                                                <!--<span><input type="checkbox" id="cat-1"><label for="cat-1">Seriviço de informatica</label></span>--> 
+                                             </div>
+                                         </div>
+                                         
+                                        
+                                  </div>
+
+                               </div>
+                              
+                        </div> 
+             </div>
+          </div>
+    </div>
+
+    
+    <script src="js/socket.io-client.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
