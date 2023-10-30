@@ -1,4 +1,4 @@
-let server_url="http://localhost:3000" // "https://df-tenders-production.up.railway.app"// //"https://df-tenders.onrender.com"
+let server_url="https://df-tenders-production.up.railway.app" // "https://df-tenders-production.up.railway.app"// //"https://df-tenders.onrender.com"
 let user_session
 let data
 let pending_tenders=[]
@@ -16,11 +16,9 @@ document.querySelectorAll('._nav-link[link_page]').forEach(e=>{
          if(last_active!=e.getAttribute('link_page')){
              document.querySelectorAll('.container .main-dashboard .content').forEach(e=>e.scrollTop=0)
          } 
-        
          if(e.getAttribute('link_page')=="notifications") see_not()
          if(e.getAttribute('link_page')!="notifications" && last_active=="notifications") remove_new_seen_nots()
     })
-
 })
 
 
@@ -54,14 +52,12 @@ function update_all(){
   add_profile()
   add_notifications(data.notifications)
   add_cat(data.settings)
-  
 }
 
 function add_profile(){
     document.querySelectorAll('.content > .top .user .username').forEach(e=>e.innerHTML=data.session.name)
     document.querySelector('.profile .username .res').innerHTML=data.session.name
     document.querySelector('.profile .email .res').innerHTML=data.session.email
-
     //setttings
     document.querySelector('.content.settings > .center .option.receive_nots > div').classList.remove('loading')
     if(!data.profile.tender_email_nots){
@@ -80,8 +76,6 @@ function handleDocumentClick(event) {
         }
     })
   }
-
-
   function support(){
       setTimeout(()=>document.querySelector('.pop-ups .tech-info').classList.add('show'),100)
   }
@@ -97,7 +91,6 @@ function handleDocumentClick(event) {
     Clipboard(text)
     setTimeout(()=>document.querySelector('.pop-ups .tech-info').classList.remove('show'),100)
   }
-
 
   function handle_popup(action,name){
      if(name=="profile"){
@@ -336,6 +329,17 @@ function handleDocumentClick(event) {
 
       item.cat=JSON.parse(JSON.stringify(item.category.name))
 
+      if(data.profile.admin){
+        document.querySelector('.pop-ups .tender .quick-preview').classList.remove('show_preview')
+        c=document.querySelector('.pop-ups .tender .quick-preview')
+        c.removeChild(document.querySelector('.pop-ups .tender .quick-preview iframe'))
+        let iframe=document.createElement('iframe')
+        iframe.width="100%"
+        iframe.height="100%"
+        iframe.src=`https://drive.google.com/file/d/${item.download_file}/preview`
+        c.appendChild(iframe)
+      }
+
       let details=`<div class="_option"><label class="res title" ${data.profile.admin ? 'contenteditable="true"' : ''}>${item.title}</label></div>`
       let details_order=[
         {name:'Categoria',key:'cat'},
@@ -372,6 +376,7 @@ function handleDocumentClick(event) {
       }else{
           document.querySelector('.pop-ups .tender').classList.remove('loading')
       }
+      document.querySelector('.pop-ups .tender').setAttribute('tender_status',item.status)
       setTimeout(()=>document.querySelector('.pop-ups .tender').classList.add('show'),100)
   }
 
@@ -416,14 +421,16 @@ function handleDocumentClick(event) {
             if(result.code==0){
                let _i=data.tenders.findIndex(t=>t.id==id)
                data.tenders[_i]=result.tender
+               document.querySelector('.pop-ups .tender').setAttribute('tender_status',result.tender.status)
                search_tenders(document.querySelector('.content.tenders .search-container input').value)
             }else{
-               alert('Error while updating tender ID:'+id)
+               alert('Error while updating tender ID: '+id)
             }
         } else {
           throw new Error('Failed to fetch data');
         }
       } catch (error) {
+        alert('Error while updating tender ID: '+id)
         pending_tenders=pending_tenders.filter(t=>t.id!=id && t.action!="edit")
         document.querySelectorAll(`.pop-ups .tender[_id="${id}"]`).forEach(e=>e.classList.remove('loading')) 
         console.error(error);
@@ -490,7 +497,7 @@ function handleDocumentClick(event) {
         <div class="details">
              ${details}
         </div>
-        ${count_found_details  > 2 || data.profile.admin ? `<div class="show-more" onclick="show_tender_details('${item.id}')">
+        ${/*count_found_details  > 2 ||*/ data.profile.admin ? `<div class="show-more" onclick="show_tender_details('${item.id}')">
              <span class="btn-show-more">
                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" style="fill:var(--main-color)"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
              </span>
@@ -1153,6 +1160,7 @@ function search_from_object(object,text){
 function search_tenders(input){
      let _s=document.querySelector('.content.tenders ._top .options .see select').value
      let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
+     let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
      let tenders=[]
 
      data.tenders.forEach(t=>{
@@ -1170,6 +1178,10 @@ function search_tenders(input){
 
      if(_cat!="all" && _cat){
         tenders=tenders.filter(t=>t.category.id==_cat) 
+     }
+
+     if(_edit!="all" && _edit && data.profile.admin){
+       tenders=tenders.filter(t=>t.status==_edit) 
      }
   
      add_tenders(tenders)
