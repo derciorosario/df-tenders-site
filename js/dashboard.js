@@ -214,6 +214,8 @@ function handleDocumentClick(event) {
                   throw new Error('Failed to fetch data');
                 }
               } catch (error) {
+                clearTimeout(msg_timeout)
+                msg_timeout=setTimeout(()=>document.querySelector('.pop-ups .profile .msg').classList.remove('show'),5000)
                 document.querySelector('.pop-ups .profile .msg').innerHTML="Erro, tente novamente!"
                 document.querySelector('.pop-ups .profile .msg').classList.add('show')
                 console.error(error);
@@ -662,7 +664,7 @@ my_socket.on('update_user_nots',()=>{
 
  function add_notifications(new_data){
   let c=document.querySelector('.container .main-dashboard .content.notifications > .center ._center .items')
-  c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Sem Notificações!</span>` :''
+  c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Sem Notificações ainda! Selecione suas preferências de categorias em <label onclick="document.querySelector('._nav-link[link_page="settings"]').click()" class="me point">Configurações</label> para receber notificações.</span>` :''
 
    for (let i = 0; i < new_data.length; i++) {
        const item = new_data[i];
@@ -1109,9 +1111,11 @@ async function login(){
       const result = await response.json();
       if(result.code==0){
         localStorage.setItem('user_session',JSON.stringify(result.data.session))
+        document.querySelector('.splash').style.display="flex"
         data=result.data
         update_all()
         document.querySelector('.__log').style.display="none"
+        document.querySelector('.splash').style.display="none"
         document.querySelector('._nav-link[link_page="tenders"]').click()
       }else if(result.code==1){
         document.querySelector('.__log .login .msg').innerHTML="Email ou senha invalidos!"

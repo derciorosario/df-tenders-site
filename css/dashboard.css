@@ -1181,6 +1181,13 @@ iframe{
    border-top:1px var(--trans-color) solid;
 } 
 
+.me{
+  color: var(--main-color);
+}
+.me.point{
+    cursor: pointer !important;
+}
+
 .container .pop-ups .tender .options button{
     padding: 0.4rem 0.8rem;
     margin-right:  0.4rem;
