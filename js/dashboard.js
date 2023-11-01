@@ -664,7 +664,7 @@ my_socket.on('update_user_nots',()=>{
 
  function add_notifications(new_data){
   let c=document.querySelector('.container .main-dashboard .content.notifications > .center ._center .items')
-  c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Sem Notificações ainda! Selecione suas preferências de categorias em <label onclick="document.querySelector('._nav-link[link_page="settings"]').click()" class="me point">Configurações</label> para receber notificações.</span>` :''
+  c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Sem Notificações ainda! </br> Selecione suas preferências de categorias em <label class="me">Configurações</label> para receber notificações.</span>` :''
 
    for (let i = 0; i < new_data.length; i++) {
        const item = new_data[i];
