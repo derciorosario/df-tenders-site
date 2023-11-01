@@ -1173,11 +1173,11 @@ function search_tenders(input){
      })
 
      if(_s=="saved"){
-       tenders=tenders.filter(t=>data.profile.saved_tender.includes(t.id)) 
+       tenders=data.profile.saved_tender ? tenders.filter(t=>data.profile.saved_tender.includes(t.id)) : [] 
      }
 
      if(_s=="notify"){
-        tenders=tenders.filter(t=>data.profile.active_tender_not.includes(t.id)) 
+        tenders=data.profile.active_tender_not ? tenders.filter(t=>data.profile.active_tender_not.includes(t.id)) : [] 
      }
 
      if(_cat!="all" && _cat){
