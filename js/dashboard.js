@@ -228,12 +228,15 @@ function handleDocumentClick(event) {
   
   document.addEventListener("click", handleDocumentClick);
 
-  function logout(){
+  function logout(first_log){
       document.querySelector('.splash').style.display="none"
       clear_log_data()
       localStorage.removeItem('user_session')
-      document.querySelector('.__log').className="__log login"
-      document.querySelector('.__log').style.display="block"
+      if(!first_log){
+        document.querySelector('.__log').className="__log login"
+        document.querySelector('.__log').style.display="block"
+      }
+      
   }
 
 
@@ -1213,7 +1216,6 @@ async function get_user_data(){
         body: JSON.stringify(user_session),
       });
 
-      console.log('---')
   
       if (response.ok) {
         const result = await response.json();
@@ -1241,7 +1243,7 @@ async function get_user_data(){
     }
    
   }else{
-    setTimeout(()=>logout(),1500) 
+    setTimeout(()=>logout('first_log'),1500) 
   }
 }
 
