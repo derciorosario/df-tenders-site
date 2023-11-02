@@ -1,4 +1,4 @@
-let server_url="http://127.0.0.1:3000" // "https://df-tenders-production.up.railway.app"// //"https://df-tenders.onrender.com"
+let server_url="https://df-tenders-production.up.railway.app" // "https://df-tenders-production.up.railway.app"// //"https://df-tenders.onrender.com"
 let user_session
 let data
 let pending_tenders=[]
