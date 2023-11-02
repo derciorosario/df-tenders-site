@@ -1226,7 +1226,7 @@ function log_guest(action){
         document.querySelector('.splash').style.display="flex"
         window.location.href="/"
       }
-  }if(action=="login"){
+  }else if(action=="login"){
     document.querySelector('.__log').className='__log login'
   }else{
     document.querySelector('.__log').className='__log signin'
