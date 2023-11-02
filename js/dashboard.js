@@ -47,11 +47,17 @@ const all_tender_details = [
 ];
 
 function update_all(){
+  if(data.profile.guest){
+     document.querySelector('body > .container').classList.add('guest')
+  }else{
+     document.querySelector('body > .container').classList.remove('guest')
+  }
   add_tenders(data.tenders)
-  add_settings(data.settings)
-  add_profile()
+  if(!data.profile.guest) add_settings(data.settings)
+  if(!data.profile.guest) add_profile()
   add_notifications(data.notifications)
   add_cat(data.settings)
+
 }
 
 function add_profile(){
@@ -661,13 +667,21 @@ my_socket.on('update_user_nots',()=>{
         }
     }
 
-   if(data)  get_user_nots()
+   if(data && localStorage.getItem('user_session'))  get_user_nots()
 })
 
 
  function add_notifications(new_data){
+
   let c=document.querySelector('.container .main-dashboard .content.notifications > .center ._center .items')
+ 
+  if(data.profile.guest){
+    c.innerHTML=`<span class="table_empty_msg">Faça o registro para receber notificações e recomendações.</span>`
+    return
+  }
   c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Nenhuma notificação ainda! </br> Selecione suas preferências de categorias em <label class="me">Configurações</label> para receber notificações e recomendações.</span>` :''
+
+
 
    for (let i = 0; i < new_data.length; i++) {
        const item = new_data[i];
@@ -1204,12 +1218,21 @@ function search_notifications(input){
 }
 
 
+function log_guest(action){
+  if(action=="login"){
+    document.querySelector('.__log').className='__log login'
+  }else{
+    document.querySelector('.__log').className='__log signin'
+  }
+  document.querySelector('.__log').style.display="flex"
+}
+
 
 async function get_user_data(){
   let user_session=localStorage.getItem('user_session')
   if(user_session){
     user_session=JSON.parse(user_session)
-    try {
+      try {
       const response = await fetch(server_url+"/get_user_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1243,7 +1266,35 @@ async function get_user_data(){
     }
    
   }else{
-    setTimeout(()=>logout('first_log'),1500) 
+     //setTimeout(()=>logout('first_log'),1500) 
+     user_session=JSON.parse(user_session)
+
+      try {
+      const response = await fetch(server_url+"/get_user_guest_data", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+
+  
+      if (response.ok) {
+        const result = await response.json();
+        if(result.code==0){
+          data=result.data
+          update_all()
+          document.querySelector('.__log').style.display="none"
+          document.querySelector('._nav-link[link_page="tenders"]').click()
+          document.querySelector('.splash').style.display="none"
+        }
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    } catch (error) {
+      setTimeout(()=> get_user_data(),4000)
+      console.error(error);
+    }
+   
+
   }
 }
 

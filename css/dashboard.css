@@ -87,7 +87,22 @@ iframe{
      text-align: center;
      
  }
- .__log.loading  .logo-name{
+ .__log  .as-guest{
+    width: 100%;
+    position: absolute;
+    bottom:2rem;
+    left: 0;
+    text-align: center;
+    color: var(--main-color);
+}
+.__log  .as-guest span{
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 600;
+}
+ .__log.loading  .logo-name,
+ .__log.loading .as-guest
+ {
     display: none;
  }
  .__log .logo-name span{
@@ -214,6 +229,8 @@ iframe{
      z-index: 3;
  }
 
+
+
  .container  .mobile-menu div{
      display: flex;
      flex-direction: column;
@@ -265,6 +282,9 @@ iframe{
    margin-bottom: 0.4rem;
    cursor: pointer;
 }
+.container.guest ._nav-link[link_page="logout"]{
+    display: none;
+}
 .container ._nav-link .count{
     border-radius: 0.2rem;
     background: rgba(100, 5, 209, 0.096);
@@ -313,6 +333,37 @@ iframe{
 .container .main-dashboard{
     flex: 1;
 }
+
+.container.guest .guest-top-message{
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border-color);
+
+}
+.container .guest-top-message > span{
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    flex: 1;
+}
+.container .guest-top-message svg{
+    margin: 0 0.5rem;
+}
+
+.container .guest-top-message div span{
+    text-decoration: underline;
+    color: var(--main-color);
+    margin: 0 0.2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+
 
 .container .main-dashboard .content > .top{
     width: 100%;
@@ -371,6 +422,9 @@ iframe{
     align-items: center;
     padding: 1rem;
     cursor: pointer;
+}
+.container.guest .main-dashboard .content > .top .user{
+    display: none;
 }
 .container .main-dashboard .content > .top .user:hover{
     color: var(--main-color);
@@ -555,6 +609,13 @@ iframe{
     display: flex;
     justify-content:  center;
     align-items: center;
+}
+.container.guest .main-dashboard .content.tenders > .center ._center .items .box  .top-options .o.n,
+.container.guest .main-dashboard .content.tenders > .center ._center .items .box  .top-options .o.s
+{
+  pointer-events: none;
+  opacity: .4;
+  cursor:unset;
 }
 .container .main-dashboard .content.tenders > .center ._center .items .box  .top-options .o:hover{
     background: var(--border-color);
@@ -775,11 +836,15 @@ iframe{
 .container .main-dashboard .content.settings > .center .option div{
     position: relative;
 }
-.container .main-dashboard .content.settings > .center .option div.loading .switch{
+.container:not(.guest) .main-dashboard .content.settings > .center .option div.loading .switch{
     opacity: 0;
     pointer-events: none;
 }
-.container .main-dashboard .content.settings > .center .option div.loading::after{
+.container.guest .main-dashboard .content.settings > .center .option div.loading .switch{
+    opacity: .4;
+    pointer-events: none;
+}
+.container:not(.guest) .main-dashboard .content.settings > .center .option div.loading::after{
     content: "";
     position: absolute;  
     width: 24px;
@@ -882,6 +947,10 @@ iframe{
 .container .main-dashboard .content.settings .custom-container .cats label:hover{
     opacity: .7;
     cursor: pointer;
+}
+
+.container.guest .main-dashboard .content.settings .custom-container{
+  display: none;
 }
 
 .hidden-content{
@@ -1316,6 +1385,9 @@ iframe{
    
 }
 @media (max-width:700px){
+    .guest-top-message svg{
+        display: none;
+    }
     .container .main-dashboard .content.tenders > .center ._center .items .box{
         width: 100%;
         margin-right: 0;
