@@ -1,4 +1,4 @@
-let server_url="https://df-tenders-production.up.railway.app" // "https://df-tenders-production.up.railway.app"// //"https://df-tenders.onrender.com"
+let server_url="http://127.0.0.1:3000" // "https://df-tenders-production.up.railway.app"// //"https://df-tenders.onrender.com"
 let user_session
 let data
 let pending_tenders=[]
@@ -1219,7 +1219,14 @@ function search_notifications(input){
 
 
 function log_guest(action){
-  if(action=="login"){
+  if(action=="guest"){
+      if(document.querySelector('body > .container.guest')){
+        document.querySelector('.__log').style.display='none'
+      }else{
+        document.querySelector('.splash').style.display="flex"
+        window.location.href="/"
+      }
+  }if(action=="login"){
     document.querySelector('.__log').className='__log login'
   }else{
     document.querySelector('.__log').className='__log signin'
