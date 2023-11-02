@@ -1228,10 +1228,12 @@ function log_guest(action){
       }
   }else if(action=="login"){
     document.querySelector('.__log').className='__log login'
+    document.querySelector('.__log').style.display="flex"
   }else{
+    document.querySelector('.__log').style.display="flex"
     document.querySelector('.__log').className='__log signin'
   }
-  document.querySelector('.__log').style.display="flex"
+ 
 }
 
 
