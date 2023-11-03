@@ -47,6 +47,7 @@ const all_tender_details = [
 ];
 
 function update_all(){
+  document.querySelectorAll('.container .main-dashboard .content').forEach(e=>e.scrollTop=0)
   if(data.profile.guest){
      document.querySelector('body > .container').classList.add('guest')
   }else{
@@ -399,6 +400,7 @@ function handleDocumentClick(event) {
  
 
  async  function edit_tender(action){
+
      let id=document.querySelector('.pop-ups .tender').getAttribute('_id')
      document.querySelector('.pop-ups .tender').classList.add('loading')
      pending_tenders.push({action:'edit',id})
@@ -415,6 +417,8 @@ function handleDocumentClick(event) {
      }else{
            tender.category={id:"",name:""}
      } 
+
+
 
 
      try {
@@ -440,6 +444,7 @@ function handleDocumentClick(event) {
         } else {
           throw new Error('Failed to fetch data');
         }
+
       } catch (error) {
         alert('Error while updating tender ID: '+id)
         pending_tenders=pending_tenders.filter(t=>t.id!=id && t.action!="edit")
@@ -525,6 +530,7 @@ function handleDocumentClick(event) {
 
 
   function add_tenders(new_data){
+      new_data=new_data.reverse()
       let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
       c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Nenhum resultado!</span>` :''
 
@@ -591,7 +597,12 @@ function handleDocumentClick(event) {
 
  function add_cat(new_data){
   let available_cats=[] 
-  data.tenders.forEach(t=>{if(t.category.name){available_cats.push(t.category.id)}})
+  if(data.profile.admin){
+    data.tenders.forEach(t=>{if(t.category.name){available_cats.push(t.category.id.toString())}})
+  }else{
+    data.tenders.forEach(t=>{if(t.status=="approved"){available_cats.push(t.category.id.toString())}})
+  }
+  
   let c=document.querySelector('.main-dashboard .content.tenders ._top .options .cat select')
   c.innerHTML=`
       <option disabled selected value="">Categorias</option>
@@ -600,7 +611,8 @@ function handleDocumentClick(event) {
    let tender_categories=new_data.tender_categories
    for (let i = 0; i < tender_categories.length; i++) {
        const item = tender_categories[i];
-       if(available_cats.includes(item.id))  c.innerHTML+=` <option value="${item.id}">${item.name}</option>`
+       if(available_cats.includes(item.id.toString()))  c.innerHTML+=` <option value="${item.id}">${item.name} </option>`
+       //count cat (${available_cats.filter(_id=>_id==item.id.toString()).length})
    }
 }
 
@@ -919,7 +931,7 @@ async function confirm_email(){
     });
     clearTimeout(msg_timeout)
     msg_timeout=setTimeout(()=>document.querySelector('.__log .confirm-email .msg').innerHTML="",5000)
-    document.querySelector('.__log').classList.remove('loading')
+    
 
     if (response.ok) {
       const result = await response.json();
@@ -934,11 +946,14 @@ async function confirm_email(){
       }else if(result.code==2){
         document.querySelector('.__log .confirm-email .msg').innerHTML="Código já foi usado!"
       }
+      document.querySelector('.__log').classList.remove('loading')
     } else {
+      document.querySelector('.__log').classList.remove('loading')
       document.querySelector('.__log .confirm-email .msg').innerHTML="Erro, tente novamente!"
       throw new Error('Failed to fetch data');
     }
   } catch (error) {
+    document.querySelector('.__log').classList.remove('loading')
     document.querySelector('.__log .confirm-email .msg').innerHTML="Erro, tente novamente!"
     console.error(error);
   }
@@ -1071,9 +1086,6 @@ async function new_password(){
     });
     clearTimeout(msg_timeout)
     msg_timeout=setTimeout(()=>document.querySelector('.__log .new-password .msg').innerHTML="",5000)
-    document.querySelector('.__log').classList.remove('loading')
-
-  
 
    if (response.ok) {
       const result = await response.json();
@@ -1085,11 +1097,14 @@ async function new_password(){
       }else{
         document.querySelector('.__log .new-password .msg').innerHTML="Erro, tente novamente!"
       }
+      document.querySelector('.__log').classList.remove('loading')
     } else {
+      document.querySelector('.__log').classList.remove('loading')
       document.querySelector('.__log .new-password .msg').innerHTML="Erro, tente novamente!"
       throw new Error('Failed to fetch data');
     }
   } catch (error) {
+    document.querySelector('.__log').classList.remove('loading')
     document.querySelector('.__log .new-password .msg').innerHTML="Erro, tente novamente!"
     console.error(error);
   }
@@ -1122,7 +1137,7 @@ async function login(){
     });
     clearTimeout(msg_timeout)
     msg_timeout=setTimeout(()=>document.querySelector('.__log .login .msg').innerHTML="",5000)
-    document.querySelector('.__log').classList.remove('loading')
+   
 
     if (response.ok) {
       const result = await response.json();
@@ -1137,11 +1152,14 @@ async function login(){
       }else if(result.code==1){
         document.querySelector('.__log .login .msg').innerHTML="Email ou senha invalidos!"
       }
+      document.querySelector('.__log').classList.remove('loading')
     } else {
+      document.querySelector('.__log').classList.remove('loading')
       document.querySelector('.__log .login .msg').innerHTML="Erro, tente novamente!"
       throw new Error('Failed to fetch data');
     }
   } catch (error) {
+    document.querySelector('.__log').classList.remove('loading')
     document.querySelector('.__log .login .msg').innerHTML="Erro, tente novamente!"
     console.error(error);
   }
@@ -1198,7 +1216,7 @@ function search_tenders(input){
      }
 
      if(_cat!="all" && _cat){
-        tenders=tenders.filter(t=>t.category.id==_cat) 
+        tenders=tenders.filter(t=>t.category.id.toString()==_cat.toString()) 
      }
 
      if(_edit!="all" && _edit && data.profile.admin){
