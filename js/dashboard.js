@@ -1220,8 +1220,14 @@ function search_tenders(input){
      }
 
      if(_edit!="all" && _edit && data.profile.admin){
-       tenders=tenders.filter(t=>t.status==_edit) 
+       if(_edit=="pending"){
+         tenders=tenders.filter(t=>t.status==_edit || !t.status) 
+       }else{
+         tenders=tenders.filter(t=>t.status==_edit) 
+       }  
      }
+
+     
   
      add_tenders(tenders)
 }
