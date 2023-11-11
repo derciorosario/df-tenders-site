@@ -12,8 +12,8 @@ a{
 :root{
     --gray-color:#f1faee;
     --gray-color:#F5F5F5;
-    --main-color:rgb(115, 20, 223);
-    --dark-color:rgb(100, 5, 209);
+    --main-color:#0064e0/*#7314df*/;
+    --dark-color:#0659be/*rgb(100, 5, 209)*/;
     --border-color:rgba(207, 205, 205, 0.356);
     --bg-color:#F5F5F5;
     --box-color:#fff;
@@ -22,7 +22,8 @@ a{
     --white-color:#fff;
     --black-color:#000;
     --main-white-color:#fff;
-    --trans-color:rgba(100, 5, 209, 0.032);
+    --trans-color:rgba(0, 101, 224, 0.048)/*rgba(100, 5, 209, 0.032)*/;
+    --fb:rgb(0, 100, 224);
 }
 :root .dark-theme{
     --bg-color:#202124;

@@ -299,7 +299,7 @@ iframe{
     display: inline;
 }
 .container .left-menu  ._nav-link.active{
-    background: rgba(100, 5, 209, 0.096);
+    background: var(--trans-color)/* rgba(100, 5, 209, 0.096)*/;
     position: relative;
 }
 .container .left-menu  ._nav-link.active::after{
@@ -553,7 +553,7 @@ iframe{
     width: 130px;
 }
 .container .main-dashboard .content > .center ._top .options .see select{
-    background: rgba(100, 5, 209, 0.096);
+    background: var(--trans-color)/* rgba(100, 5, 209, 0.096)*/;
     color: var(--main-color);
     border-bottom: 1px solid var(--main-color);
 }
@@ -596,7 +596,7 @@ iframe{
 
 
 .container .main-dashboard .content.tenders > .center ._center .items .box:hover{
-    border:1px solid  rgba(100, 5, 209, 0.096);
+    border:1px solid var(--trans-color)/* rgba(100, 5, 209, 0.096)*/;
 }
 
 .container .main-dashboard .content.tenders > .center ._center .items .from_section{
@@ -607,7 +607,7 @@ iframe{
 }
 .container .main-dashboard .content.tenders > .center ._center .items .from_section span{
     padding: 0.6rem;
-    background:rgba(100, 5, 209, 0.041);
+    background:var(--trans-color) /*rgba(100, 5, 209, 0.041)*/;
     color: var(--main-color);
     border-radius: 0.2rem;
 }
@@ -628,10 +628,14 @@ iframe{
 .container .main-dashboard .content.tenders > .center ._center .items .box .title-c{
    /* background:  rgb(108 108 108 / 10%);*/
     padding: 0.6rem;
-    padding-bottom: 1rem;
+    padding-bottom: 1rem; 
+    border-bottom: 1px solid var(--main-color);
+}
+.container .main-dashboard .content.tenders > .center ._center .items .box[expired_date] .title-c{
+    border-bottom: 1px solid crimson; 
 }
 .container .main-dashboard .content.tenders > .center ._center .items .box .title{
-    color: var(--main-color);
+    /*color: var(--main-color);*/
     font-family: 'Segoe UI',  sans-serif;
     font-weight: 600;
     opacity: .7;
@@ -735,7 +739,7 @@ iframe{
     color: #000;
     opacity: .8;
     margin-right: 0.4rem;
-    border-left: 1px solid rgba(139, 57, 150, 0.562);
+    border-left: 1px solid var(--main-color) /*rgba(139, 57, 150, 0.562)*/;
     margin-bottom: 0.3rem;
     padding: 0.2rem;
 
@@ -761,7 +765,7 @@ iframe{
     width: 40px;
     align-self: flex-end;
     border-radius:0.4rem;
-    background: rgba(100, 5, 209, 0.048);
+    background: var(--trans-color) /*rgba(100, 5, 209, 0.048)*/;
     display: flex;
     justify-content: center;
     align-items: center;
