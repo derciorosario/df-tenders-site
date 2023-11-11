@@ -327,7 +327,7 @@
              <div class="content tenders" page="tenders">
                     <div class="top">
                             <div class="search-container">
-                                   <input  oninput="search_tenders(this.value)" autocomplete="off" type="search" placeholder="Pesquisar (empresa, categoria, 17-08-2023, budget, ...)"> 
+                                   <input  oninput="search_tenders(this.value)" autocomplete="off" type="search" placeholder="Pesquisar (empresa, seriviço, categoria, 17-08-2023, ...)"> 
                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, .4)"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path></svg>
                             </div>
                             <div class="user"onclick="handle_popup('open','profile')">
@@ -371,9 +371,9 @@
                                     </div>
                                </div> 
                                <div class="_center">
+                                     <div class="table_empty_msg"></div>
                                      <div class="items">
                                          <div class="table_loader"></div>
-
                                         <!--
                                           <div class="box">
                                                <div class="bg" onclick="show_tender_details()"></div>
@@ -406,6 +406,25 @@
                                         -->
                                          
                                      </div>
+                               </div>
+
+                               <div class="_botton">
+                                   <div class="pagination" _from="tenders">
+                                        <div class="__content">
+                                            <div class="_navigate">
+                                                    <div class="to previous" onclick="pagigation_go_to('previous',document.querySelector(`.pagination[_from='tenders']`))">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"><path d="M13.939 4.939L6.879 12 13.939 19.061 16.061 16.939 11.121 12 16.061 7.061z"></path></svg>
+                                                    </div>
+                                                        <div class="input_c">
+                                                            <input type="text" value="1"  oninput="search_tenders(document.querySelector('.content.tenders .search-container input').value)" last="1">
+                                                            <span class="max"><label>/&nbsp;</label><label class="value">1</label></span>
+                                                        </div>
+                                                    <div class="to next" onclick="pagigation_go_to('next',document.querySelector(`.pagination[_from='tenders']`))">
+                                                        <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"><path d="M13.939 4.939L6.879 12 13.939 19.061 16.061 16.939 11.121 12 16.061 7.061z"></path></svg>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                   </div>
                                </div>
                               
                         </div> 

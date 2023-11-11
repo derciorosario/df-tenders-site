@@ -53,6 +53,14 @@ function update_all(){
   }else{
      document.querySelector('body > .container').classList.remove('guest')
   }
+
+  if(data.profile.admin){
+    document.querySelector('body > .container').classList.add('admin')
+  }else{
+    document.querySelector('body > .container').classList.remove('admin')
+  }
+
+
   add_tenders(data.tenders)
   if(!data.profile.guest) add_settings(data.settings)
   if(!data.profile.guest) add_profile()
@@ -456,13 +464,31 @@ function handleDocumentClick(event) {
   function organaize_tenders(new_data,from,show_label){
     let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
 
+   // document.querySelector('.pagination[_from="tenders"]').classList[new_data.length ? 'remove' :'add']('hide')
+
     if(show_label){
       c.innerHTML+=`<div class="from_section"><span>${from}</span></div>`
     }
 
+
+  
+
     let items=new_data
     for (let i = 0; i < items.length; i++) {
         let item=items[i]
+      
+        let expired_date=false
+        let valid_date =true
+        if(item.tender_deadline){
+            try{
+               let dates=item.tender_deadline.split('-')
+               let tender_date=`${dates[2]}-${dates[1]}-${dates[0]}`
+               expired_date=new Date(data.settings.time.date).getTime() > new Date(tender_date).getTime()
+            }catch(e){
+               valid_date=false
+            }
+        }
+
         let details=""
         let details_order=[
           {name:'Prazo do concurso',key:'tender_deadline'},
@@ -473,7 +499,7 @@ function handleDocumentClick(event) {
         details_order.forEach(d=>{
             if((count_details <= 4 && item[d.key])) {
                count_details+=1
-               details+=`<span><label class="text">${d.name}</label><label class="res">${item[d.key].length > 70 ? item[d.key].slice(0,70)+'...' : item[d.key]}</label></span>`
+               details+=`<span _c="${d.key}"><label class="text">${d.name}</label><label class="res">${item[d.key].length > 70 ? item[d.key].slice(0,70)+'...' : item[d.key]}</label></span>`
             }
         })
         let count_found_details=0
@@ -491,7 +517,7 @@ function handleDocumentClick(event) {
         if(data.profile.saved_tender){if(data.profile.saved_tender.includes(item.id)){s_active="active"}}
         
         c.innerHTML+=`
-        <div class="box __tender" _id="${item.id}">
+        <div class="box __tender" _id="${item.id}" ${expired_date ? 'expired_date' :''}>
         <div class="bg" onclick="show_tender_preview('${item.id}')"></div>
         <div class="top-options">
               <span class="category">${item.category.name}</span>
@@ -528,11 +554,83 @@ function handleDocumentClick(event) {
   }
 
 
+  function set_pagination_limits(dataLength,pagContainer){
+    let res=true
+    let show_items=10 //parseInt(pagContainer.querySelector('select').value)
+    let pages=Math.ceil(dataLength/show_items) ? Math.ceil(dataLength/show_items) : 1
+    pagContainer.querySelector('.input_c .value').innerHTML=pages
+    let input_e=pagContainer.querySelector('input')
+    if(input_e.value > pages) {
+      input_e.value=pages
+    }
+    if(input_e.value == 0) {
+      input_e.value=1
+    }
+  
+    //input_e.setAttribute('last',input_e.value)
+    input_e.style.width=`${pages.length*20}px`
+    pagContainer.querySelector('.previous').setAttribute('_show',`${input_e.value==1 || pages==1 ? false : true}`)
+    pagContainer.querySelector('.next').setAttribute('_show',`${input_e.value==pages || pages==1 ? false : true}`)
+    return {min:Math.abs(show_items - (show_items*input_e.value)),max:show_items * input_e.value - 1,res}
+  }
+  
+  function pagigation_go_to(to,pagContainer){
+   
+      input_e=pagContainer.querySelector('input')
+      if(to=="previous"){
+         input_e.value=parseInt(input_e.value) - 1
+      }else{
+         input_e.value=parseInt(input_e.value) + 1
+      }
+  
+      input_e.oninput()
+  }
+  
+
+
+  function clear_results(){
+    let page=document.querySelector('._nav-link.active').getAttribute('link_page')
+    document.querySelector(`.content.${page} .search-container input`).value=''
+    if(page == "tenders"){
+        document.querySelector('.content.tenders ._top .options .cat select').value="all" 
+        search_tenders('')
+    }
+  }
+
 
   function add_tenders(new_data){
-      new_data=new_data.reverse()
+      new_data=JSON.parse(JSON.stringify(new_data)).reverse()
       let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
-      c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Nenhum resultado!</span>` :''
+      c.innerHTML=""
+      let results_c=document.querySelector('.main-dashboard .content.tenders ._center .table_empty_msg')
+
+      let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
+
+      let cat=!_cat || _cat=="all" ? "" : ` em `+ `<label class="cat">${data.settings.tender_categories.filter(_c=>_c.id==_cat)[0].name}</label>`
+
+
+      if(document.querySelector('.content.tenders .search-container input').value.replace(/\s+/g, ' ').trim()){
+         if(new_data.length){
+             results_c.innerHTML=`<span class="msg"><label class="count">${new_data.length}</label> resultado${new_data.length > 2 ? 's':''}${cat}!</span>  <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
+         }else{
+             results_c.innerHTML=`<span class="msg">Nenhum resultado${cat}!</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>`  
+         }
+          
+      }else{
+          if(_cat && _cat!="all"){
+             results_c.innerHTML=`<span class="msg">${data.settings.tender_categories.filter(_c=>_c.id==_cat)[0].name}!</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
+          }else{
+             results_c.innerHTML=``
+          }
+           
+      }
+
+     
+     
+
+      const {min,max,res}=set_pagination_limits(new_data.length,document.querySelector('.pagination[_from="tenders"]'))
+      if(!res){ return}
+      new_data=new_data.filter((_,i)=>i>=min && i<=max)
 
        let recommended=[]
        if(data.profile.categories) recommended=new_data.filter(t=>data.profile.categories.some(_c=>_c.id==t.category.id))

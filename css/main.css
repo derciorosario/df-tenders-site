@@ -22,7 +22,7 @@ a{
     --white-color:#fff;
     --black-color:#000;
     --main-white-color:#fff;
-    --trans-color:rgba(100, 5, 209, 0.096);
+    --trans-color:rgba(100, 5, 209, 0.032);
 }
 :root .dark-theme{
     --bg-color:#202124;
