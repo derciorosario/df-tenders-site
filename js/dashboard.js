@@ -462,7 +462,6 @@ function handleDocumentClick(event) {
   }
 
   function organaize_tenders(new_data,from,show_label){
-    new_data=JSON.parse(JSON.stringify(new_data)).reverse()
     let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
 
    // document.querySelector('.pagination[_from="tenders"]').classList[new_data.length ? 'remove' :'add']('hide')
@@ -600,6 +599,7 @@ function handleDocumentClick(event) {
 
 
   function add_tenders(new_data){
+      new_data=JSON.parse(JSON.stringify(new_data)).reverse()
       let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
       c.innerHTML=""
       let results_c=document.querySelector('.main-dashboard .content.tenders ._center .table_empty_msg')
