@@ -462,6 +462,7 @@ function handleDocumentClick(event) {
   }
 
   function organaize_tenders(new_data,from,show_label){
+    new_data=JSON.parse(JSON.stringify(new_data)).reverse()
     let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
 
    // document.querySelector('.pagination[_from="tenders"]').classList[new_data.length ? 'remove' :'add']('hide')
@@ -599,7 +600,6 @@ function handleDocumentClick(event) {
 
 
   function add_tenders(new_data){
-      new_data=JSON.parse(JSON.stringify(new_data)).reverse()
       let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
       c.innerHTML=""
       let results_c=document.querySelector('.main-dashboard .content.tenders ._center .table_empty_msg')
@@ -611,7 +611,7 @@ function handleDocumentClick(event) {
 
       if(document.querySelector('.content.tenders .search-container input').value.replace(/\s+/g, ' ').trim()){
          if(new_data.length){
-             results_c.innerHTML=`<span class="msg"><label class="count">${new_data.length}</label> resultado${new_data.length > 2 ? 's':''}${cat}!</span>  <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
+             results_c.innerHTML=`<span class="msg"><label class="count">${new_data.length}</label> resultado${new_data.length >= 2 ? 's':''}${cat}!</span>  <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
          }else{
              results_c.innerHTML=`<span class="msg">Nenhum resultado${cat}!</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>`  
          }
