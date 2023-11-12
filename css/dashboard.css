@@ -373,8 +373,7 @@ iframe{
   align-items: center;
 }
 .container .main-dashboard .content.notifications .table_empty_msg{
-    justify-content: flex-start;
-    align-items: unset;
+   display: inline;
 }
 .container .main-dashboard .content .table_empty_msg .clean{
     display: flex;
