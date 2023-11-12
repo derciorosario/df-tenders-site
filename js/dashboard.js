@@ -8,6 +8,11 @@ let my_socket=io(server_url)
 //change page
 document.querySelectorAll('._nav-link[link_page]').forEach(e=>{
     e.addEventListener('click',()=>{
+
+        if(e.getAttribute('link_page')=="logout"){
+           return
+        }
+
          let last_active=document.querySelector('._nav-link.active').getAttribute('link_page')
          document.querySelectorAll('.main-dashboard > .content').forEach(e=>{ e.style.display="none"})
          document.querySelectorAll('[link_page]').forEach(e=>{ e.classList.remove('active')})
@@ -77,6 +82,8 @@ function add_profile(){
     document.querySelector('.content.settings > .center .option.receive_nots > div').classList.remove('loading')
     if(!data.profile.tender_email_nots){
       document.querySelector('.content.settings > .center .option.receive_nots .switch').classList.remove('active')
+    }else{
+      document.querySelector('.content.settings > .center .option.receive_nots .switch').classList.add('active')
     }
 }
 
@@ -243,6 +250,7 @@ function handleDocumentClick(event) {
   
   document.addEventListener("click", handleDocumentClick);
 
+
   function logout(first_log){
       document.querySelector('.splash').style.display="none"
       clear_log_data()
@@ -292,6 +300,10 @@ function handleDocumentClick(event) {
 
   let settings={
        email_not:async function(){
+        if(document.querySelector('.container.guest')) {
+          alert('Faça o registro para receber notificações por email')
+          return
+        }
         document.querySelector('.main-dashboard > .content.settings .option div').classList.add('loading')
         let profile=JSON.parse(JSON.stringify(data.profile))
         profile.tender_email_nots=!profile.tender_email_nots
@@ -948,6 +960,14 @@ api_get_tenders()
 */
 
 
+function change_signup_log(){
+    localStorage.removeItem('signup_email')
+    document.querySelector('.__log').className='__log signin'
+}
+function change_recovery_log(){
+  localStorage.removeItem('recover_email')
+  document.querySelector('.__log').className='__log forgot-password'
+}
 
 async function signup(){
   clearTimeout(msg_timeout)
@@ -963,7 +983,7 @@ async function signup(){
     document.querySelector('.__log .signin .msg').innerHTML="Senha deve ter pelo menos 8 carateres!"
     return
   }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(c_text(email))){
-    document.querySelector('.__log .signin .msg').innerHTML="Email invalido!"
+    document.querySelector('.__log .signin .msg').innerHTML="Email invalido ou usado!"
     return
   }else{
     document.querySelector('.__log .signin .msg').innerHTML=""
@@ -973,6 +993,7 @@ async function signup(){
  
   try {
     const data = { name, email, password};
+    localStorage.setItem('signup_email',email)
     const response = await fetch(server_url+"/new_user", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -984,7 +1005,6 @@ async function signup(){
     document.querySelector('.__log').classList.remove('loading');
 
     if (response.ok) {
-     
       const result = await response.json();
       if(result.code==0){
           document.querySelector('.__log .confirm-email ._email').innerHTML=email
@@ -995,7 +1015,6 @@ async function signup(){
     } else {
       document.querySelector('.__log .signin .msg').innerHTML="Erro, tente novamente!"
       throw new Error('Failed to fetch data');
-      
     }
   } catch (error) {
     document.querySelector('.__log .signin .msg').innerHTML="Erro, tente novamente!"
@@ -1019,7 +1038,6 @@ async function confirm_email(){
     document.querySelector('.__log .confirm-email .msg').innerHTML=""
   }
   document.querySelector('.__log').classList.add('loading');
-
 
   try {
     const response = await fetch(server_url+"/confirm_email", {
@@ -1075,7 +1093,7 @@ async function confirm_forgot_password(){
   document.querySelector('.__log').classList.add('loading');
   
   let email=document.querySelector('.__log .forgot-password .email').value
-  
+  localStorage.setItem('recover_email',email)
   try {
     const response = await fetch(server_url+"/confirm_forgot_password", {
       method: 'POST',
@@ -1119,12 +1137,14 @@ async function recovery_password(){
     document.querySelector('.__log .forgot-password .msg').innerHTML="Insira o email!"
     return
   }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(c_text(email))){
-    document.querySelector('.__log .forgot-password .msg').innerHTML="Email invalido!"
+    document.querySelector('.__log .forgot-password .msg').innerHTML="Email invalido ou usado!"
     return
   }else{
     document.querySelector('.__log .forgot-password .msg').innerHTML=""
   }
   document.querySelector('.__log').classList.add('loading');
+
+  localStorage.removeItem('recover_email')
 
   try {
     const response = await fetch(server_url+"/recovery_password", {
@@ -1360,10 +1380,29 @@ function log_guest(action){
 
 
 async function get_user_data(){
+
+  if(localStorage.getItem('recover_email')){
+     document.querySelector('.__log .confirm-forgot-password ._email').innerHTML=localStorage.getItem('recover_email')
+     document.querySelector('.__log').className="__log confirm-forgot-password"
+     document.querySelector('.splash').style.display="none"
+     return
+  }
+
+  if(localStorage.getItem('signup_email')){
+    document.querySelector('.__log .confirm-email ._email').innerHTML=localStorage.getItem('signup_email')
+    document.querySelector('.__log').className="__log confirm-email"
+    document.querySelector('.splash').style.display="none"
+    return
+ }
+
+
+
+
   let user_session=localStorage.getItem('user_session')
   if(user_session){
     user_session=JSON.parse(user_session)
       try {
+      console.log('hi') 
       const response = await fetch(server_url+"/get_user_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1392,6 +1431,7 @@ async function get_user_data(){
         throw new Error('Failed to fetch data');
       }
     } catch (error) {
+
       setTimeout(()=> get_user_data(),4000)
       console.error(error);
     }

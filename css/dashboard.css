@@ -81,7 +81,7 @@ iframe{
 
  .__log  .logo-name{
      width: 100%;
-     position: absolute;
+     position: fixed;
      top:2rem;
      left: 0;
      text-align: center;
@@ -89,7 +89,7 @@ iframe{
  }
  .__log  .as-guest{
     width: 100%;
-    position: absolute;
+    position: fixed;
     bottom:2rem;
     left: 0;
     text-align: center;
@@ -888,7 +888,7 @@ iframe{
 }
 
 .container.guest .main-dashboard .content.settings > .center .option  .switch::before{
-    background: var(--border-color);
+    /*background: var(--border-color);*/
 }
 
 .container .main-dashboard .content.settings > .center .option  .switch.active{
@@ -904,10 +904,7 @@ iframe{
     opacity: 0;
     pointer-events: none;
 }
-.container.guest .main-dashboard .content.settings > .center .option div.loading .switch{
-    opacity: .4;
-    pointer-events: none;
-}
+
 .container:not(.guest) .main-dashboard .content.settings > .center .option div.loading::after{
     content: "";
     position: absolute;  
@@ -1277,6 +1274,8 @@ iframe{
     border: 1px solid var(--border-color);
 
 }
+
+
 .container .pop-ups .profile .p-content .details ._option .change  button{
     padding: 0.4rem;
     color: #fff;
@@ -1321,12 +1320,27 @@ iframe{
     cursor: pointer !important;
 }
 
-.container .pop-ups .tender .options button{
+
+
+.container .pop-ups .tender .options button,
+.container .pop-ups .leave .options button
+{
     padding: 0.4rem 0.8rem;
     margin-right:  0.4rem;
     cursor: pointer;
     background: var(--border-color);
 }
+.container .pop-ups .leave{
+    width: 300px;
+}
+.container .pop-ups .leave .options{
+    margin-top: 1rem;
+}
+.container .pop-ups .leave .options button{
+   width: 80px;
+}
+
+
 .container .pop-ups .tender .options button._hide{
     background: crimson;
     color: #fff;
