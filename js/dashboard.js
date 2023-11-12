@@ -48,7 +48,8 @@ const all_tender_details = [
   "publication_date",
   "phone",
   "address",
-  "email"
+  "email",
+  "province"
 ];
 
 function update_all(){
@@ -424,11 +425,11 @@ function handleDocumentClick(event) {
      let id=document.querySelector('.pop-ups .tender').getAttribute('_id')
      document.querySelector('.pop-ups .tender').classList.add('loading')
      pending_tenders.push({action:'edit',id})
-     let title=document.querySelector('.pop-ups .tender .details .title').innerHTML
+     let title=document.querySelector('.pop-ups .tender .details .title').innerHTML.replace('&nbsp;',' ')
      let tender={id,title}
 
      document.querySelectorAll('.pop-ups .tender [_key]').forEach(d=>{
-           tender[d.getAttribute('_key')]=d.innerHTML
+           tender[d.getAttribute('_key')]=d.innerHTML.replace('&nbsp;',' ')
      })
      let cat_id=document.querySelector('.pop-ups .tender [_key="cat"]').getAttribute('cat_id')
 
@@ -505,7 +506,8 @@ function handleDocumentClick(event) {
         let details_order=[
           {name:'Prazo do concurso',key:'tender_deadline'},
           {name:'Organização licitante',key:'tendering_organization'},
-          {name:'Situação do concurso',key:'tender_status'}
+          {name:'Situação do concurso',key:'tender_status'},
+          {name:'Província',key:'Location'}
         ]
         let count_details=0
         details_order.forEach(d=>{
@@ -983,7 +985,7 @@ async function signup(){
     document.querySelector('.__log .signin .msg').innerHTML="Senha deve ter pelo menos 8 carateres!"
     return
   }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(c_text(email))){
-    document.querySelector('.__log .signin .msg').innerHTML="Email invalido ou usado!"
+    document.querySelector('.__log .signin .msg').innerHTML="Email invalido!"
     return
   }else{
     document.querySelector('.__log .signin .msg').innerHTML=""
@@ -1038,6 +1040,8 @@ async function confirm_email(){
     document.querySelector('.__log .confirm-email .msg').innerHTML=""
   }
   document.querySelector('.__log').classList.add('loading');
+
+  localStorage.removeItem('signup_email')
 
   try {
     const response = await fetch(server_url+"/confirm_email", {
@@ -1137,7 +1141,7 @@ async function recovery_password(){
     document.querySelector('.__log .forgot-password .msg').innerHTML="Insira o email!"
     return
   }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(c_text(email))){
-    document.querySelector('.__log .forgot-password .msg').innerHTML="Email invalido ou usado!"
+    document.querySelector('.__log .forgot-password .msg').innerHTML="Email invalido!"
     return
   }else{
     document.querySelector('.__log .forgot-password .msg').innerHTML=""
