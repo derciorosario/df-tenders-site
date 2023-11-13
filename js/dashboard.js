@@ -385,7 +385,8 @@ function handleDocumentClick(event) {
         {name:'Endereço',key:'address'},
         {name:'Telefone',key:'phone'},
         {name:'Budget',key:'budget'},
-        {name:'Email',key:'email'}
+        {name:'Email',key:'email'},
+        {name:'Província',key:'province'}
       ]
 
       let select_cat="<option>Select</option>"
@@ -429,7 +430,7 @@ function handleDocumentClick(event) {
      let tender={id,title}
 
      document.querySelectorAll('.pop-ups .tender [_key]').forEach(d=>{
-           tender[d.getAttribute('_key')]=d.innerHTML.replace('&nbsp;',' ')
+           tender[d.getAttribute('_key')]=d.innerHTML.includes('undefined') ? "" : d.innerHTML.replace('&nbsp;',' ')
      })
      let cat_id=document.querySelector('.pop-ups .tender [_key="cat"]').getAttribute('cat_id')
 
@@ -507,7 +508,7 @@ function handleDocumentClick(event) {
           {name:'Prazo do concurso',key:'tender_deadline'},
           {name:'Organização licitante',key:'tendering_organization'},
           {name:'Situação do concurso',key:'tender_status'},
-          {name:'Província',key:'Location'}
+          {name:'Província',key:'province'}
         ]
         let count_details=0
         details_order.forEach(d=>{
