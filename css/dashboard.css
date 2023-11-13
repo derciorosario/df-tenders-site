@@ -1465,7 +1465,6 @@ iframe{
    background: var(--box-color);
    border: 1px solid var(--border-color);
    border-radius: 0.3rem;
-   padding:0.5rem;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -1488,6 +1487,7 @@ iframe{
   .main-dashboard .content .pagination .__content ._navigate .to{
       cursor: pointer;
       transition: 0.1s;
+      padding: 0.5rem;
   }
   .main-dashboard .content .pagination .__content ._navigate .to[_show="false"]{
       opacity: 0;

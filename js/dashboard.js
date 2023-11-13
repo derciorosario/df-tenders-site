@@ -586,6 +586,9 @@ function handleDocumentClick(event) {
     input_e.style.width=`${pages.length*20}px`
     pagContainer.querySelector('.previous').setAttribute('_show',`${input_e.value==1 || pages==1 ? false : true}`)
     pagContainer.querySelector('.next').setAttribute('_show',`${input_e.value==pages || pages==1 ? false : true}`)
+
+    input_e.setAttribute('page',input_e.value)
+
     return {min:Math.abs(show_items - (show_items*input_e.value)),max:show_items * input_e.value - 1,res}
   }
   
@@ -598,7 +601,7 @@ function handleDocumentClick(event) {
          input_e.value=parseInt(input_e.value) + 1
       }
   
-      input_e.oninput()
+      input_e.onkeyup()
   }
   
 
@@ -768,6 +771,28 @@ if(!window.location.href.includes('test') && !localStorage.getItem('test') && !w
     my_socket.emit('log_usage')  
 }
 
+function navigate_to_page(event){
+
+  if(!event){
+    search_tenders(document.querySelector('.content.tenders .search-container input').value)
+    return
+  }
+
+
+  let to=document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value
+   if(event.key=="Enter"){
+
+    if(parseInt(to).toString() == "NaN"){
+      to=1
+      document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=to
+    }
+
+    document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=parseInt(to)
+
+    search_tenders(document.querySelector('.content.tenders .search-container input').value)
+    
+  }
+}
 
 my_socket.on('update_user_nots',()=>{
   async  function get_user_nots(){

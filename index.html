@@ -433,7 +433,7 @@
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"><path d="M13.939 4.939L6.879 12 13.939 19.061 16.061 16.939 11.121 12 16.061 7.061z"></path></svg>
                                                     </div>
                                                         <div class="input_c">
-                                                            <input type="text" value="1"  oninput="search_tenders(document.querySelector('.content.tenders .search-container input').value)" last="1">
+                                                            <input type="text" value="1" onblur="this.value=this.getAttribute('page')" page="1"  onkeyup="navigate_to_page(event)" last="1">
                                                             <span class="max"><label>/&nbsp;</label><label class="value">1</label></span>
                                                         </div>
                                                     <div class="to next" onclick="pagigation_go_to('next',document.querySelector(`.pagination[_from='tenders']`))">
