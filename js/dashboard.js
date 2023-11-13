@@ -782,7 +782,7 @@ function navigate_to_page(event){
   let to=document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value
    if(event.key=="Enter"){
 
-    if(parseInt(to).toString() == "NaN"){
+    if(parseInt(to).toString() == "NaN" || parseInt(to) < 0){
       to=1
       document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=to
     }
