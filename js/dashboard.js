@@ -763,6 +763,12 @@ function see_not(){
 }
 
 
+//usage track
+if(!window.location.href.includes('test') && !localStorage.getItem('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+    my_socket.emit('log_usage')  
+}
+
+
 my_socket.on('update_user_nots',()=>{
   async  function get_user_nots(){
         try {
