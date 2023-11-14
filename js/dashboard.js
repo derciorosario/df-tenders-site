@@ -420,7 +420,7 @@ function handleDocumentClick(event) {
     document.querySelector('.pop-ups .tender [_key="cat"]').setAttribute('cat_id',cat_id)
   }
 
-  function change_category(){
+  function change_options(){
      document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=1
      search_tenders(document.querySelector('.content.tenders .search-container input').value)
   }

@@ -359,7 +359,7 @@
                                        <div class="options">
 
                                            <div class="edit-see" style="display: none">
-                                                    <select onchange="search_tenders(document.querySelector('.content.tenders .search-container input').value)">
+                                                    <select onchange="change_options()">
                                                             <option value="all">All</option>
                                                             <option value="approved">Approved</option>
                                                             <option value="pending">Pending</option>
@@ -368,7 +368,7 @@
                                            </div>
 
                                           <div class="see">
-                                                    <select onchange="search_tenders(document.querySelector('.content.tenders .search-container input').value)">
+                                                    <select onchange="change_options()">
                                                             <option value="new">Novos</option>
                                                             <option value="saved">Guardados</option>
                                                             <option value="notify">A Notificar</option>
@@ -380,7 +380,7 @@
                                                      <span class="desc-title">Adicionar categoria</span>
                                                      <svg xmlns="http://www.w3.org/2000/svg" width="15" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, .4)"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path></svg>
                                                 </div>-->
-                                                <select onchange="search_tenders(document.querySelector('.content.tenders .search-container input').value)">
+                                                <select onchange="change_options()">
                                                         <option disabled selected value="">Categorias</option>
                                                         <option>Todos</option>
                                                 </select>
