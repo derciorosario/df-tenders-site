@@ -419,6 +419,11 @@ function handleDocumentClick(event) {
     document.querySelector('.pop-ups .tender [_key="cat"]').innerHTML=data.settings.tender_categories.filter(c=>c.id==cat_id)[0].name
     document.querySelector('.pop-ups .tender [_key="cat"]').setAttribute('cat_id',cat_id)
   }
+
+  function change_category(){
+     document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=1
+     search_tenders(document.querySelector('.content.tenders .search-container input').value)
+  }
  
 
  async  function edit_tender(action){
