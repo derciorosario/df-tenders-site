@@ -772,8 +772,10 @@ function see_not(){
 
 
 //usage track
-if(!window.location.href.includes('test') && !localStorage.getItem('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+if(!window.location.href.includes('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
     my_socket.emit('log_usage')  
+}else{
+    console.log('test')
 }
 
 function navigate_to_page(event){
