@@ -19,7 +19,7 @@ document.querySelectorAll('._nav-link[link_page]').forEach(e=>{
          document.querySelectorAll(`[link_page="${e.getAttribute('link_page')}"]`).forEach(f=>f.classList.add('active')) 
          document.querySelector(`[page="${e.getAttribute('link_page')}"]`).style.display="block"
          if(last_active!=e.getAttribute('link_page')){
-             track_action({action:'change_menu_tab'})
+             track_action({action:'change_menu_tab',details:{tab_name:e.getAttribute('link_page')}})
              document.querySelectorAll('.container .main-dashboard .content').forEach(e=>e.scrollTop=0)
          } 
          if(e.getAttribute('link_page')=="notifications") see_not()
@@ -776,7 +776,7 @@ function see_not(){
 
 
 //usage track
-if(!window.location.href.includes('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+if(!window.location.href.includes('/?test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
     my_socket.emit('log_usage')  
 }else{
     console.log('test log')
@@ -784,7 +784,7 @@ if(!window.location.href.includes('test') && !window.location.href.includes('127
 
 
 function track_action(data){
-  if(!window.location.href.includes('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+  if(!window.location.href.includes('/?test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
       my_socket.emit('log_actions',data)  
   }else{
       console.log('test action')
