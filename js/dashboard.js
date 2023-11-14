@@ -19,6 +19,7 @@ document.querySelectorAll('._nav-link[link_page]').forEach(e=>{
          document.querySelectorAll(`[link_page="${e.getAttribute('link_page')}"]`).forEach(f=>f.classList.add('active')) 
          document.querySelector(`[page="${e.getAttribute('link_page')}"]`).style.display="block"
          if(last_active!=e.getAttribute('link_page')){
+             track_action({action:'change_menu_tab'})
              document.querySelectorAll('.container .main-dashboard .content').forEach(e=>e.scrollTop=0)
          } 
          if(e.getAttribute('link_page')=="notifications") see_not()
@@ -265,6 +266,7 @@ function handleDocumentClick(event) {
 
 
  async function change_profile(profile,action){
+           track_action({action:'change_profile'})
           try {
           const response = await fetch(server_url+"/change_profile", {
             method: 'POST',
@@ -330,7 +332,8 @@ function handleDocumentClick(event) {
   }
 
   init_settings()
-  function  show_tender_preview(id){
+  function show_tender_preview(id){
+    track_action({action:'open_tender',details:{tender_id:id}})
     document.querySelector('.pop-ups .tender_preview').classList.add('loading')
     let item=data.tenders.filter(t=>t.id==id)[0]
     c=document.querySelector('.pop-ups .tender_preview .preview')
@@ -421,6 +424,7 @@ function handleDocumentClick(event) {
   }
 
   function change_options(){
+     track_action({action:'change_options'})
      document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=1
      search_tenders(document.querySelector('.content.tenders .search-container input').value)
   }
@@ -598,7 +602,7 @@ function handleDocumentClick(event) {
   }
   
   function pagigation_go_to(to,pagContainer){
-   
+      track_action({action:'change_tender_page'})
       input_e=pagContainer.querySelector('input')
       if(to=="previous"){
          input_e.value=parseInt(input_e.value) - 1
@@ -775,7 +779,16 @@ function see_not(){
 if(!window.location.href.includes('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
     my_socket.emit('log_usage')  
 }else{
-    console.log('test')
+    console.log('test log')
+}
+
+
+function track_action(data){
+  if(!window.location.href.includes('test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+      my_socket.emit('log_actions',data)  
+  }else{
+      console.log('test action')
+  }
 }
 
 function navigate_to_page(event){
@@ -869,6 +882,7 @@ my_socket.on('update_user_nots',()=>{
 
  async function handle_tender(action,id){
     if(action=="active_tender_not"){
+      track_action({action:'notify_tender',details:{tender_id:id}})
       document.querySelectorAll(`.__tender[_id="${id}"] .o.n`).forEach(e=>e.classList.add('loading')) 
         pending_tenders.push({action,id})
         try {
@@ -894,6 +908,7 @@ my_socket.on('update_user_nots',()=>{
             console.error(error);
         }
     }else if(action=="saved_tender"){
+      track_action({action:'save_tender',details:{tender_id:id}})
       document.querySelectorAll(`.__tender[_id="${id}"] .o.s`).forEach(e=>e.classList.add('loading')) 
       pending_tenders.push({action,id})
       try {
@@ -959,6 +974,7 @@ my_socket.on('update_user_nots',()=>{
 
 
   function download_file(id){
+    track_action({action:'download_tender',details:{tender_id:id}})
     item=data.tenders.filter(t=>t.id==id)[0]
     window.location.href=`https://drive.google.com/uc?id=${item.download_file}&export=download`
     return
@@ -1358,6 +1374,7 @@ function search_from_object(object,text){
 
 
 function search_tenders(input){
+     track_action({action:'search_tenders'})
      let _s=document.querySelector('.content.tenders ._top .options .see select').value
      let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
      let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
