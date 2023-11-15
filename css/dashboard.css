@@ -772,6 +772,29 @@ iframe{
     margin-bottom: 0.5rem;
 
 }
+
+.container .main-dashboard .content.tenders > .center ._center .items .box .btn-open{
+   padding: 0.7rem;
+   position: relative;
+   display: flex;
+   justify-content: flex-end;
+}
+
+.container .main-dashboard .content.tenders > .center ._center .items .box .btn-open button{
+    font-size: 0.95rem;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid transparent;
+    background: var(--trans-color);
+    cursor: pointer;
+    color: var(--main-color);
+    outline: none;
+    z-index: 2;
+    border-radius: 0.2rem; 
+}
+.container .main-dashboard .content.tenders > .center ._center .items .box .btn-open button:hover{
+   border: 1px solid #0065e091;
+}
+
 .container .main-dashboard .content.tenders > .center ._center .items .box .show-more svg{
     transform: translateY(0.1rem);
 }

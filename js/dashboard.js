@@ -77,7 +77,9 @@ function update_all(){
 }
 
 function add_profile(){
-    document.querySelectorAll('.content > .top .user .username').forEach(e=>e.innerHTML=data.session.name)
+    document.querySelectorAll('.content > .top .user .username').forEach(e=>{
+       e.innerHTML=data.session.name.length <= 25 ? data.session.name : data.session.name.slice(0,25)+"..."
+    })
     document.querySelector('.profile .username .res').innerHTML=data.session.name
     document.querySelector('.profile .email .res').innerHTML=data.session.email
     //setttings
@@ -563,12 +565,16 @@ function handleDocumentClick(event) {
         <div class="details">
              ${details}
         </div>
+
         ${/*count_found_details  > 2 ||*/ data.profile.admin ? `<div class="show-more" onclick="show_tender_details('${item.id}')">
              <span class="btn-show-more">
                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" style="fill:var(--main-color)"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
              </span>
         </div>`:''}
         <div class="empty-div"></div>
+        <div class="btn-open" onclick="show_tender_preview('${item.id}')">
+              <button>Abrir</button>
+        </div>
         <div class="title-c">
             <span class="title">${item.title}</span>
         </div>
@@ -595,9 +601,7 @@ function handleDocumentClick(event) {
     input_e.style.width=`${pages.length*20}px`
     pagContainer.querySelector('.previous').setAttribute('_show',`${input_e.value==1 || pages==1 ? false : true}`)
     pagContainer.querySelector('.next').setAttribute('_show',`${input_e.value==pages || pages==1 ? false : true}`)
-
     input_e.setAttribute('page',input_e.value)
-
     return {min:Math.abs(show_items - (show_items*input_e.value)),max:show_items * input_e.value - 1,res}
   }
   
@@ -609,11 +613,8 @@ function handleDocumentClick(event) {
       }else{
          input_e.value=parseInt(input_e.value) + 1
       }
-  
       input_e.onkeyup()
   }
-  
-
 
   function clear_results(){
     let page=document.querySelector('._nav-link.active').getAttribute('link_page')
@@ -624,36 +625,28 @@ function handleDocumentClick(event) {
     }
   }
 
-
   function add_tenders(new_data){
       new_data=JSON.parse(JSON.stringify(new_data)).reverse()
       let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
       c.innerHTML=""
       let results_c=document.querySelector('.main-dashboard .content.tenders ._center .table_empty_msg')
-
       let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
 
       let cat=!_cat || _cat=="all" ? "" : ` em `+ `<label class="cat">${data.settings.tender_categories.filter(_c=>_c.id==_cat)[0].name}</label>`
 
-
-      if(document.querySelector('.content.tenders .search-container input').value.replace(/\s+/g, ' ').trim()){
+     if(document.querySelector('.content.tenders .search-container input').value.replace(/\s+/g, ' ').trim()){
          if(new_data.length){
              results_c.innerHTML=`<span class="msg"><label class="count">${new_data.length}</label> resultado${new_data.length >= 2 ? 's':''}${cat}!</span>  <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
          }else{
              results_c.innerHTML=`<span class="msg">Nenhum resultado${cat}!</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>`  
          }
-          
       }else{
           if(_cat && _cat!="all"){
              results_c.innerHTML=`<span class="msg">${data.settings.tender_categories.filter(_c=>_c.id==_cat)[0].name}!</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
           }else{
              results_c.innerHTML=``
           }
-           
       }
-
-     
-     
 
       const {min,max,res}=set_pagination_limits(new_data.length,document.querySelector('.pagination[_from="tenders"]'))
       if(!res){ return}
@@ -857,7 +850,7 @@ my_socket.on('update_user_nots',()=>{
   }
   c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Nenhuma notificação ainda! </br> Selecione suas preferências de categorias em <label class="me">Configurações</label> para receber notificações e recomendações.</span>` :''
 
-
+   return
 
    for (let i = 0; i < new_data.length; i++) {
        const item = new_data[i];
