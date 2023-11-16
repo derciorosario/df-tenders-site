@@ -852,32 +852,68 @@ my_socket.on('update_user_nots',()=>{
  function add_notifications(new_data){
 
   let c=document.querySelector('.container .main-dashboard .content.notifications > .center ._center .items')
+
+  c.innerHTML=``
  
   if(data.profile.guest){
     c.innerHTML=`<span class="table_empty_msg">Faça o registro para receber notificações e recomendações.</span>`
     return
   }
-  c.innerHTML=!new_data.length ? `<span class="table_empty_msg">Nenhuma notificação ainda! </br> Selecione suas preferências de categorias em <label class="me">Configurações</label> para receber notificações e recomendações.</span>` :''
+  if(!new_data.length && data.notifications){
+    c.innerHTML=`<span class="table_empty_msg">Nunhum resultado!</span>`
+  }
 
-   return
+  if(!new_data.length && !data.notifications){
+    c.innerHTML=`<span class="table_empty_msg">Nenhuma notificação ainda! </br> Selecione suas preferências de categorias em <label class="me">Configurações</label> para receber notificações e recomendações.</span>` 
+  }
+
+ 
+
+ 
+
 
    for (let i = 0; i < new_data.length; i++) {
        const item = new_data[i];
-       c.innerHTML+=`
-          <div class="item" _id="${item.id}" onclick="show_tender_preview('${item.tender.id}')">
+
+       if(item.type=="new_recommended_tender"){
+            c.innerHTML+=`
+            <div class="item" _id="${item.id}" onclick="show_tender_preview('${item.tender.id}')">
+              <div class="__top">
+                  <span class="date"><label>${item.date.date}</label>&nbsp; ${item.date.hour}</span>
+                  <span class="cat-c"><label class="cat">Concurso </label><label class="type">${item.tender.category.name ? '-':''} ${item.tender.category.name}</label></span>
+              </div>
+              <div class="text">
+                    <p>${item.tender.title}</p> 
+              </div>
+              <div class="options">
+                    <span class="btn-see">Ver</span>
+              </div>
+            </div>
+        `
+       }
+
+       let cats=[]
+       data.tenders.filter(t=>item.details.tenders_ids.includes(t.id)).forEach(t=>{
+         if(!cats.includes(t.category.name))  cats.push(t.category.name)
+       })
+
+       
+       if(item.type=="new_today_tenders"){
+        c.innerHTML+=`
+          <div class="item" _id="${item.id}" type="${item.type}">
             <div class="__top">
                 <span class="date"><label>${item.date.date}</label>&nbsp; ${item.date.hour}</span>
-                <span class="cat-c"><label class="cat">Concurso </label><label class="type">${item.tender.category.name ? '-':''} ${item.tender.category.name}</label></span>
             </div>
             <div class="text">
-                  <p>${item.tender.title}</p> 
-            </div>
-            <div class="options">
-                  <span class="btn-see">Ver</span>
+                  <p><label class="tender-count">${item.details.tenders_ids.length}</label> <label class="message-text">novos concursos foram adicionados para:</label> <label class="cat-list">${cats.join(', ')}</label></p> 
             </div>
           </div>
-       `
+        `
+      }
+     
+
    }
+
    add_last_seen_not()
  }
 
@@ -1413,12 +1449,30 @@ function search_tenders(input){
 }
 
 function search_notifications(input){
-  let notifications=[]
-  data.notifications.forEach(n=>{
-    n.cat=n.tender.category.name
-    if(search_from_object(n.tender,input)) notifications.push(n)
-  })
-  add_notifications(notifications)
+  if(input){
+    let notifications=[]
+    data.notifications.forEach(n=>{
+      if(n.type=="new_recommended_tender"){
+        n.details.tender.cat=n.details.tender.category.name
+        if(search_from_object(n.details.tender,input)) notifications.push(n)
+      }else if(n.type=="new_today_tenders"){
+           let tenders=data.tenders.filter(t=>n.details.tenders_ids.includes(t.id))
+           let can_show=false
+           tenders.forEach(t=>{
+               t.cat=t.category.name
+               if(search_from_object(t,input))  can_show=true
+           })
+
+           if(can_show) notifications.push(n)
+      }
+    })
+  
+    add_notifications(notifications)
+  }else{
+    add_notifications(data.notifications)
+  }
+  
+  
 }
 
 

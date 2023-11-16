@@ -850,6 +850,11 @@ iframe{
     margin-bottom: 0.8rem;
     opacity: .7;
 }
+.container .main-dashboard .content.notifications > .center ._center .items .item p .message-text,
+.container .main-dashboard .content.notifications > .center ._center .items .item p .tender-count
+{
+   font-weight: 600;
+}
 .container .main-dashboard .content.notifications > .center ._center .items .item .btn-see{
     font-size: 0.95rem;
     padding: 0.2rem 0.7rem;
