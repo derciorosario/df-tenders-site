@@ -637,7 +637,6 @@ iframe{
     /*color: var(--main-color);*/
     font-family: 'Segoe UI',  sans-serif;
     font-weight: 600;
-    opacity: .7;
 }
 
 .container .main-dashboard .content.tenders > .center ._center .items .box .top-options{
