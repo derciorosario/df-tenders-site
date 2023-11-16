@@ -642,7 +642,7 @@ function handleDocumentClick(event) {
          }
       }else{
           if(_cat && _cat!="all"){
-             results_c.innerHTML=`<span class="msg">${data.settings.tender_categories.filter(_c=>_c.id==_cat)[0].name}!</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
+             results_c.innerHTML=`<span class="msg">${data.settings.tender_categories.filter(_c=>_c.id==_cat)[0].name}</span> <span class="clean" onclick="clear_results()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" width="20"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path></svg></span>` 
           }else{
              results_c.innerHTML=``
           }
