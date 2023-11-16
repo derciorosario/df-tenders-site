@@ -1418,9 +1418,22 @@ function search_tenders(input){
      let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
      let tenders=[]
 
-     data.tenders.forEach(t=>{
+      data.tenders.forEach(t=>{
       t.cat=t.category.name 
-      if(search_from_object(t,input)) tenders.push(t)
+      if(search_from_object(t,input)) {
+          tenders.push(t)
+      }
+      
+
+        /*input.replace(/\s+/g, ' ').trim().split(' ').forEach(_input=>{
+            t.cat=t.category.name 
+            if(!tenders.some(_t=>_t.id==t.id)){
+              if(search_from_object(t,_input)) {
+                  tenders.push(t)
+              }
+            }
+        })*/
+       
      })
 
      if(_s=="saved"){
