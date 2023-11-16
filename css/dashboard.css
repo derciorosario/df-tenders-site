@@ -813,6 +813,9 @@ iframe{
     background: var(--box-color);
     padding: 0.7rem 1rem;
     margin-bottom: 1rem;
+  
+}
+.container .main-dashboard .content.notifications > .center ._center .items .item:not([type="new_today_tenders"]){
     cursor: pointer;
 }
 .container .main-dashboard .content.notifications > .center ._center .items .item.not_seen_item .text p{

@@ -859,11 +859,11 @@ my_socket.on('update_user_nots',()=>{
     c.innerHTML=`<span class="table_empty_msg">Faça o registro para receber notificações e recomendações.</span>`
     return
   }
-  if(!new_data.length && data.notifications){
+  if(!new_data.length && data.notifications.length){
     c.innerHTML=`<span class="table_empty_msg">Nunhum resultado!</span>`
   }
 
-  if(!new_data.length && !data.notifications){
+  if(!new_data.length && !data.notifications.length){
     c.innerHTML=`<span class="table_empty_msg">Nenhuma notificação ainda! </br> Selecione suas preferências de categorias em <label class="me">Configurações</label> para receber notificações e recomendações.</span>` 
   }
 
