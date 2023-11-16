@@ -768,8 +768,17 @@ function see_not(){
 }
 
 
+function canTrack(){
+  if(!window.location.href.includes('/?test') && !localStorage.getItem('test_app') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+    return true
+  }else{
+    return false
+  }
+}
+
+
 //usage track
-if(!window.location.href.includes('/?test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+if(canTrack()){
     my_socket.emit('log_usage')  
 }else{
     console.log('test log')
@@ -777,7 +786,7 @@ if(!window.location.href.includes('/?test') && !window.location.href.includes('1
 
 
 function track_action(data){
-  if(!window.location.href.includes('/?test') && !window.location.href.includes('127.0.0.1') && !window.location.href.includes('site')){
+  if(canTrack()){
       my_socket.emit('log_actions',data)  
   }else{
       console.log('test action')
@@ -1459,7 +1468,7 @@ async function get_user_data(){
       const response = await fetch(server_url+"/get_user_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user_session),
+        body: JSON.stringify({...user_session,canTrack:canTrack()}),
       });
 
   
@@ -1497,7 +1506,7 @@ async function get_user_data(){
       const response = await fetch(server_url+"/get_user_guest_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
+        body: JSON.stringify({canTrack:canTrack()}),
       });
 
   
