@@ -57,15 +57,22 @@ function update_all(){
   document.querySelectorAll('.container .main-dashboard .content').forEach(e=>e.scrollTop=0)
   if(data.profile.guest){
      document.querySelector('body > .container').classList.add('guest')
+     document.querySelector('.content.tenders .center ._top .options .see').style.display="none"
   }else{
      document.querySelector('body > .container').classList.remove('guest')
+     document.querySelector('.content.tenders .center ._top .options .see').style.display="flex"
   }
 
   if(data.profile.admin){
     document.querySelector('body > .container').classList.add('admin')
+    document.querySelector('.content.tenders .center ._top .options .edit-see').style.display="flex"
   }else{
     document.querySelector('body > .container').classList.remove('admin')
+    document.querySelector('.content.tenders .center ._top .options .edit-see').style.display="none"
   }
+
+
+
 
 
   add_tenders(data.tenders)
@@ -1548,10 +1555,6 @@ async function get_user_data(){
           document.querySelector('._nav-link[link_page="tenders"]').click()
           document.querySelector('.splash').style.display="none"
           my_socket.emit('join',data.session)
-
-          if(data.profile.admin){
-            document.querySelector('.content.tenders .center ._top .options .edit-see').style.display="flex"
-          }
         }else{
           logout()
         }
