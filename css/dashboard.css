@@ -349,7 +349,6 @@ iframe{
     display: flex;
     align-items: center;
     margin-right: 1rem;
-    flex: 1;
     font-weight: 600;
     opacity: .8;
 }

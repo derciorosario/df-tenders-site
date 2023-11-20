@@ -632,6 +632,17 @@ function handleDocumentClick(event) {
     }
   }
 
+  function tender_cats(){
+      let best_accounts=[]
+      data.settings.tender_categories.forEach(c=>{
+           best_accounts.push({...c,total:data.tenders.filter(t=>t.category.id.toString()==c.id.toString()).length})
+      })
+
+      console.log(best_accounts)
+      console.log(best_accounts.sort((a, b) => b.total - a.total))
+  }
+
+
   function add_tenders(new_data){
       new_data=JSON.parse(JSON.stringify(new_data)).reverse()
       let c=document.querySelector('.main-dashboard .content.tenders ._center .items')
@@ -789,6 +800,19 @@ if(canTrack()){
     my_socket.emit('log_usage')  
 }else{
     console.log('test log')
+}
+
+function countLogs(){
+        let l_t=JSON.parse(localStorage.getItem('l_t'))
+        if(l_t){
+          l_t.times+=1
+          localStorage.setItem('l_t',JSON.stringify(l_t))
+          return l_t
+        }else{
+          l_t={id:Math.random(),times:1}
+          localStorage.setItem('l_t',JSON.stringify(l_t))
+          return l_t
+        }
 }
 
 
@@ -1542,7 +1566,7 @@ async function get_user_data(){
       const response = await fetch(server_url+"/get_user_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({...user_session,canTrack:canTrack()}),
+        body: JSON.stringify({...user_session,canTrack:canTrack(),l_t:countLogs()}),
       });
 
   
@@ -1576,7 +1600,7 @@ async function get_user_data(){
       const response = await fetch(server_url+"/get_user_guest_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({canTrack:canTrack()}),
+        body: JSON.stringify({canTrack:canTrack(),l_t:countLogs()}),
       });
 
   
