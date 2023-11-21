@@ -525,10 +525,16 @@ function handleDocumentClick(event) {
         let details=""
         let details_order=[
           {name:'Prazo do concurso',key:'tender_deadline'},
-          {name:'Organização licitante',key:'tendering_organization'},
-          {name:'Situação do concurso',key:'tender_status'},
-          {name:'Província',key:'province'}
+          //{name:'Situação do concurso',key:'tender_status'},
+          
         ]
+
+        if(!item.comapny_logo_url){
+           details_order.push({name:'Organização licitante',key:'tendering_organization'}) 
+        }
+
+        details_order.push({name:'Província',key:'province'})
+
         let count_details=0
         details_order.forEach(d=>{
             if((count_details <= 4 && item[d.key])) {
@@ -572,6 +578,7 @@ function handleDocumentClick(event) {
         
         <div class="details">
              ${details}
+             ${item.comapny_logo_url ? `<div class="cp_logo"><img width="37" height="37" src="https://drive.google.com/uc?export=view&id=1NPCN6F9B51A65cQN9zA4XuKGY805LDCY"><span>${item.tendering_organization}</span></div>` :''}
         </div>
 
         ${/*count_found_details  > 2 ||*/ data.profile.admin ? `<div class="show-more" onclick="show_tender_details('${item.id}')">
