@@ -1441,13 +1441,85 @@ function c_text(text){
 }
 
 
+function levenshteinDistance(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+
+  const matrix = [];
+
+  // Initialize the matrix
+  for (let i = 0; i <= b.length; i++) {
+    matrix[i] = [i];
+  }
+
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  // Fill in the matrix
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      const cost = a[j - 1] === b[i - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
+
+
+
+function searchItems(searchTerm,items,_keys, threshold = 30) {
+  searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  console.log(searchTerm)
+
+  return items
+    .map(item => {
+      //const nameSimilarity = levenshteinDistance(searchTerm, item.name.toLowerCase());
+      //const priceSimilarity = levenshteinDistance(searchTerm, item.price.toLowerCase());
+
+      /* // You can add more keys to search here
+       const totalSimilarity = nameSimilarity + priceSimilarity; // You may adjust this calculation based on your requirements
+       */
+      let totalSimilarity=""
+
+      if(_keys){
+           _keys.forEach(k=>{
+              if(item[k]){
+                totalSimilarity+=levenshteinDistance(searchTerm, item[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+              }
+             
+           })
+      }else{
+        Object.keys(item).forEach(k=>{
+          if(item[k]){
+            totalSimilarity+=item[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")+" "
+          }
+       })
+      }
+
+      
+      console.log(totalSimilarity)
+
+
+      return { item, totalSimilarity };
+    })
+    .filter(result => result.totalSimilarity <= threshold)
+    .sort((a, b) => a.totalSimilarity - b.totalSimilarity)
+    .map(result => result.item.id);
+}
 
 
 function search_from_object(object,text){
   let add=false
   Object.keys(object).forEach(k=>{
     if(typeof object[k]=="string"){
-      if(object[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))){
+       if(object[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))){
          add=true
       }
     }
@@ -1466,13 +1538,13 @@ function search_tenders(input){
      let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
      let tenders=[]
 
-      data.tenders.forEach(t=>{
-      t.cat=t.category.name 
+      data.tenders.forEach((t,_i)=>{
+       
+        data.tenders[_i].cat=t.category.name 
+     /* t.cat=t.category.name 
       if(search_from_object(t,input)) {
           tenders.push(t)
-      }
-      
-
+      }*/
         /*input.replace(/\s+/g, ' ').trim().split(' ').forEach(_input=>{
             t.cat=t.category.name 
             if(!tenders.some(_t=>_t.id==t.id)){
@@ -1481,8 +1553,12 @@ function search_tenders(input){
               }
             }
         })*/
-       
      })
+
+     const searchResults = searchItems(input,data.tenders,['tendering_organization']);
+
+     console.log(searchResults);
+
 
      if(_s=="saved"){
        tenders=data.profile.saved_tender ? tenders.filter(t=>data.profile.saved_tender.includes(t.id)) : [] 
