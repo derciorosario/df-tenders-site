@@ -1540,11 +1540,11 @@ function search_tenders(input){
 
       data.tenders.forEach((t,_i)=>{
        
-        data.tenders[_i].cat=t.category.name 
-     /* t.cat=t.category.name 
+       // data.tenders[_i].cat=t.category.name 
+      t.cat=t.category.name 
       if(search_from_object(t,input)) {
           tenders.push(t)
-      }*/
+      }
         /*input.replace(/\s+/g, ' ').trim().split(' ').forEach(_input=>{
             t.cat=t.category.name 
             if(!tenders.some(_t=>_t.id==t.id)){
@@ -1555,7 +1555,7 @@ function search_tenders(input){
         })*/
      })
 
-     const searchResults = searchItems(input,data.tenders,['tendering_organization']);
+     //const searchResults = searchItems(input,data.tenders,['tendering_organization']);
 
      console.log(searchResults);
 
