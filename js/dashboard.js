@@ -1453,7 +1453,7 @@ function search_from_object(object,text){
 
 
 function search_tenders(input){
-     track_action({action:'search_tenders'})
+     track_action({action:'search_tenders',details:{input}})
      let _s=document.querySelector('.content.tenders ._top .options .see select').value
      let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
      let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
