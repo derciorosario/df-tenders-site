@@ -575,7 +575,23 @@ iframe{
     max-width: 800px;
 
 }
-
+.container .main-dashboard .content.tenders > .center ._center .tender_cats{
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+.container .main-dashboard .content.tenders > .center ._center .tender_cats span{
+    background: var(--border-color);
+    padding: 0.3rem;
+    margin-right:0.5rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+.container .main-dashboard .content.tenders > .center ._center .tender_cats span:hover{
+    background: rgba(207, 205, 205, 0.74);
+    border: 2px solid var(--border-color);
+}
 .container .main-dashboard .content.tenders > .center ._center .items .box{
     width: 300px;
     background: var(--box-color);

@@ -433,7 +433,8 @@ function handleDocumentClick(event) {
   }
 
   function change_options(){
-     track_action({action:'change_options'})
+    let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
+     track_action({action:'change_options',details:{cat:_cat}})
      document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=1
      search_tenders(document.querySelector('.content.tenders .search-container input').value)
   }
@@ -638,8 +639,17 @@ function handleDocumentClick(event) {
            best_accounts.push({...c,total:data.tenders.filter(t=>t.category.id.toString()==c.id.toString()).length})
       })
 
-      console.log(best_accounts)
-      console.log(best_accounts.sort((a, b) => b.total - a.total))
+     
+      best_accounts=best_accounts.sort((a, b) => b.total - a.total)
+      let c=document.querySelector('.main-dashboard .content.tenders ._center .tender_cats')
+      c.innerHTML=""
+
+      best_accounts.filter((_c,i)=>i<=3).forEach(_c=>{
+          c.innerHTML+=`<span>${_c.name} <label>(${_c.total})</label></span>`
+      })
+
+     
+
   }
 
 
@@ -1535,6 +1545,8 @@ function log_guest(action){
     document.querySelector('.__log').style.display="flex"
     document.querySelector('.__log').className='__log signin'
   }
+
+  track_action({action:'log_guest',details:{log:action}})
  
 }
 
