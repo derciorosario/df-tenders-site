@@ -1557,7 +1557,7 @@ function search_tenders(input){
 
      //const searchResults = searchItems(input,data.tenders,['tendering_organization']);
 
-     console.log(searchResults);
+  
 
 
      if(_s=="saved"){
