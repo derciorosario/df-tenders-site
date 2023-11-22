@@ -1713,7 +1713,7 @@ async function get_user_data(){
   }
 }
 
-get_user_data()
+//get_user_data()
 
 
 
