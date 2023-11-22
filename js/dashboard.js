@@ -4,6 +4,7 @@ let data
 let pending_tenders=[]
 let global_pendings=[]
 let my_socket=io(server_url)
+let l_t
 
 //change page
 document.querySelectorAll('._nav-link[link_page]').forEach(e=>{
@@ -819,8 +820,14 @@ if(canTrack()){
     console.log('test log')
 }
 
+
+
 function countLogs(){
-        let l_t=JSON.parse(localStorage.getItem('l_t'))
+         if(l_t){
+           return l_t
+         }
+
+        l_t=JSON.parse(localStorage.getItem('l_t'))
         if(l_t){
           l_t.times+=1
           localStorage.setItem('l_t',JSON.stringify(l_t))
@@ -1473,46 +1480,9 @@ function levenshteinDistance(a, b) {
 
 
 
-function searchItems(searchTerm,items,_keys, threshold = 30) {
-  searchTerm = searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-  console.log(searchTerm)
-
-  return items
-    .map(item => {
-      //const nameSimilarity = levenshteinDistance(searchTerm, item.name.toLowerCase());
-      //const priceSimilarity = levenshteinDistance(searchTerm, item.price.toLowerCase());
-
-      /* // You can add more keys to search here
-       const totalSimilarity = nameSimilarity + priceSimilarity; // You may adjust this calculation based on your requirements
-       */
-      let totalSimilarity=""
-
-      if(_keys){
-           _keys.forEach(k=>{
-              if(item[k]){
-                totalSimilarity+=levenshteinDistance(searchTerm, item[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
-              }
-             
-           })
-      }else{
-        Object.keys(item).forEach(k=>{
-          if(item[k]){
-            totalSimilarity+=item[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")+" "
-          }
-       })
-      }
-
-      
-      console.log(totalSimilarity)
 
 
-      return { item, totalSimilarity };
-    })
-    .filter(result => result.totalSimilarity <= threshold)
-    .sort((a, b) => a.totalSimilarity - b.totalSimilarity)
-    .map(result => result.item.id);
-}
+
 
 
 function search_from_object(object,text){
@@ -1530,34 +1500,62 @@ function search_from_object(object,text){
 }
 
 
+function smart_search(searchTerm,items,keys,rate=5){
+   searchTerm=searchTerm.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+        return items.map((item)=>{
+             if(!keys){
+               keys=Object.keys(item)
+             }
+             let count_Similarity=0
+             let match=false
+             Object.keys(item).forEach(k=>{
+                 if(item[k] && keys.includes(k) && typeof item[k]=="string"){
+                    let totalSimilarity=levenshteinDistance(searchTerm,item[k].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+                    console.log(totalSimilarity)
+                    if(totalSimilarity <= rate){
+                         match=true
+                         count_Similarity+=totalSimilarity
+                    }
+                 }
+             })
+
+             return { item, count_Similarity, match};
+
+         }).filter(result => result.match == true)
+         .sort((a, b) => b.count_Similarity - a.count_Similarity)
+         .map(result => result.item)
+  
+}
+
+
 
 function search_tenders(input){
+     console.log(input)
      track_action({action:'search_tenders',details:{input}})
      let _s=document.querySelector('.content.tenders ._top .options .see select').value
      let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
      let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
+     data.tenders.forEach((t,_i)=>{
+        data.tenders[_i].cat=t.category.name 
+     })
      let tenders=[]
+     if(!input){
+      tenders=data.tenders
+     }else{
 
       data.tenders.forEach((t,_i)=>{
-       
-       // data.tenders[_i].cat=t.category.name 
-      t.cat=t.category.name 
-      if(search_from_object(t,input)) {
-          tenders.push(t)
-      }
-        /*input.replace(/\s+/g, ' ').trim().split(' ').forEach(_input=>{
-            t.cat=t.category.name 
-            if(!tenders.some(_t=>_t.id==t.id)){
-              if(search_from_object(t,_input)) {
-                  tenders.push(t)
-              }
-            }
-        })*/
-     })
+          t.cat=t.category.name 
+          if(search_from_object(t,input)) {
+              tenders.push(t)
+          }
+      })
 
-     //const searchResults = searchItems(input,data.tenders,['tendering_organization']);
+      //tenders=smart_search(input,data.tenders,['tendering_organization','title','cat','tender_deadline'],3)
+     }
+     
 
-  
+     
 
 
      if(_s=="saved"){
