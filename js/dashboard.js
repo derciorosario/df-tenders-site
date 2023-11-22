@@ -1528,11 +1528,12 @@ function smart_search(searchTerm,items,keys,rate=5){
   
 }
 
-
+function on_search_tenders(input){
+  if(input) track_action({action:'search_tenders',details:{input}})
+  search_tenders(input)
+}
 
 function search_tenders(input){
-     console.log(input)
-     track_action({action:'search_tenders',details:{input}})
      let _s=document.querySelector('.content.tenders ._top .options .see select').value
      let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
      let _edit=document.querySelector('.content.tenders ._top .options .edit-see select').value
