@@ -786,10 +786,10 @@ iframe{
 }
 .container .main-dashboard .content.tenders > .center ._center .items .box .details .cp_logo span{
     opacity: .8;
+    margin-bottom: 0;
 }
 .container .main-dashboard .content.tenders > .center ._center .items .box .details .cp_logo .logo{
   margin-right: 0.5rem;
-  width: 40px;
 }
 .container .main-dashboard .content.tenders > .center ._center .items .box .show-more{
     width: 100%;

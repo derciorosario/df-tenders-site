@@ -577,7 +577,7 @@ function handleDocumentClick(event) {
         
         <div class="details">
              ${details}
-             ${item.company_logo_url ? `<div class="cp_logo"><div class="logo"><img width="37" height="37" src="https://drive.google.com/uc?export=view&id=${item.company_logo_url}"></div><span>${item.tendering_organization}</span></div>` :''}
+             ${item.company_logo_url ? `<div class="cp_logo"><div class="logo"><img style="display:none" onload="this.style.display='block'" src="https://drive.google.com/uc?export=view&id=${item.company_logo_url}"></div><span>${item.tendering_organization}</span></div>` :''}
         </div>
 
         ${/*count_found_details  > 2 ||*/ data.profile.admin ? `<div class="show-more" onclick="show_tender_details('${item.id}')">
