@@ -765,8 +765,8 @@ function handleDocumentClick(event) {
    let tender_categories=new_data.tender_categories
    for (let i = 0; i < tender_categories.length; i++) {
        const item = tender_categories[i];
-       if(available_cats.includes(item.id.toString()))  c.innerHTML+=` <option value="${item.id}">${item.name} </option>`
-       //count cat (${available_cats.filter(_id=>_id==item.id.toString()).length})
+       if(available_cats.includes(item.id.toString()))  c.innerHTML+=` <option value="${item.id}">${item.name} (${available_cats.filter(_id=>_id==item.id.toString()).length})</option>`
+      
    }
 }
 
