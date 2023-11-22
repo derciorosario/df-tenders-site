@@ -78,7 +78,7 @@ function update_all(){
   if(!data.profile.guest) add_profile()
   add_notifications(data.notifications)
   add_cat(data.settings)
-  tender_cats()
+ // tender_cats()
 }
 
 function add_profile(){
