@@ -55,6 +55,7 @@ const all_tender_details = [
 ];
 
 function update_all(){
+
   document.querySelectorAll('.container .main-dashboard .content').forEach(e=>e.scrollTop=0)
   if(data.profile.guest){
      document.querySelector('body > .container').classList.add('guest')
@@ -72,16 +73,12 @@ function update_all(){
     document.querySelector('.content.tenders .center ._top .options .edit-see').style.display="none"
   }
 
-
-
-
-
   add_tenders(data.tenders)
   if(!data.profile.guest) add_settings(data.settings)
   if(!data.profile.guest) add_profile()
   add_notifications(data.notifications)
   add_cat(data.settings)
-
+  tender_cats()
 }
 
 function add_profile(){
@@ -655,9 +652,6 @@ function handleDocumentClick(event) {
       best_accounts.filter((_c,i)=>i<=3).forEach(_c=>{
           c.innerHTML+=`<span>${_c.name} <label>(${_c.total})</label></span>`
       })
-
-     
-
   }
 
 

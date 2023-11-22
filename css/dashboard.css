@@ -583,6 +583,11 @@ iframe{
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    width: 100%;
 }
 .container .main-dashboard .content.tenders > .center ._center .tender_cats span{
     background: var(--border-color);
