@@ -779,6 +779,18 @@ iframe{
 .container .main-dashboard .content.tenders > .center ._center .items .box[expired_date] .details span[_c="tender_deadline"] label.res{
     color: crimson;
 }
+
+.container .main-dashboard .content.tenders > .center ._center .items .box .details .cp_logo{
+    display: flex;
+    align-items: center;
+}
+.container .main-dashboard .content.tenders > .center ._center .items .box .details .cp_logo span{
+    opacity: .8;
+}
+.container .main-dashboard .content.tenders > .center ._center .items .box .details .cp_logo .logo{
+  margin-right: 0.5rem;
+  width: 40px;
+}
 .container .main-dashboard .content.tenders > .center ._center .items .box .show-more{
     width: 100%;
     display: flex;

@@ -51,7 +51,8 @@ const all_tender_details = [
   "phone",
   "address",
   "email",
-  "province"
+  "province",
+  "company_logo_url"
 ];
 
 function update_all(){
@@ -396,7 +397,8 @@ function handleDocumentClick(event) {
         {name:'Telefone',key:'phone'},
         {name:'Budget',key:'budget'},
         {name:'Email',key:'email'},
-        {name:'Província',key:'province'}
+        {name:'Província',key:'province'},
+        {name:'Logo',key:'company_logo_url'}
       ]
 
       let select_cat="<option>Select</option>"
@@ -426,20 +428,20 @@ function handleDocumentClick(event) {
 
 
   function edit_tender_cat(cat_id){
-    document.querySelector('.pop-ups .tender [_key="cat"]').innerHTML=data.settings.tender_categories.filter(c=>c.id==cat_id)[0].name
-    document.querySelector('.pop-ups .tender [_key="cat"]').setAttribute('cat_id',cat_id)
+      document.querySelector('.pop-ups .tender [_key="cat"]').innerHTML=data.settings.tender_categories.filter(c=>c.id==cat_id)[0].name
+      document.querySelector('.pop-ups .tender [_key="cat"]').setAttribute('cat_id',cat_id)
   }
 
   function change_options(){
-    let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
+     let _cat=document.querySelector('.content.tenders ._top .options .cat select').value
      track_action({action:'change_options',details:{cat:_cat}})
      document.querySelector('.main-dashboard .content .pagination .__content ._navigate input').value=1
      search_tenders(document.querySelector('.content.tenders .search-container input').value)
+
   }
  
 
  async  function edit_tender(action){
-
      let id=document.querySelector('.pop-ups .tender').getAttribute('_id')
      document.querySelector('.pop-ups .tender').classList.add('loading')
      pending_tenders.push({action:'edit',id})
@@ -449,15 +451,13 @@ function handleDocumentClick(event) {
      document.querySelectorAll('.pop-ups .tender [_key]').forEach(d=>{
            tender[d.getAttribute('_key')]=d.innerHTML.includes('undefined') ? "" : d.innerHTML.replace('&nbsp;',' ')
      })
-     let cat_id=document.querySelector('.pop-ups .tender [_key="cat"]').getAttribute('cat_id')
 
+     let cat_id=document.querySelector('.pop-ups .tender [_key="cat"]').getAttribute('cat_id')
      if(data.settings.tender_categories.some(_c=>_c.id==cat_id)){
            tender.category={id:cat_id,name:data.settings.tender_categories.filter(_c=>_c.id==cat_id)[0].name}
      }else{
            tender.category={id:"",name:""}
      } 
-
-
 
 
      try {
@@ -472,6 +472,7 @@ function handleDocumentClick(event) {
 
       if (response.ok) {
             const result = await response.json();
+            console.log(result)
             if(result.code==0){
                let _i=data.tenders.findIndex(t=>t.id==id)
                data.tenders[_i]=result.tender
@@ -485,7 +486,7 @@ function handleDocumentClick(event) {
         }
 
       } catch (error) {
-        alert('Error while updating tender ID: '+id)
+        alert('Fatal error while updating tender ID: '+id)
         pending_tenders=pending_tenders.filter(t=>t.id!=id && t.action!="edit")
         document.querySelectorAll(`.pop-ups .tender[_id="${id}"]`).forEach(e=>e.classList.remove('loading')) 
         console.error(error);
@@ -527,8 +528,8 @@ function handleDocumentClick(event) {
           
         ]
 
-        if(!item.comapny_logo_url){
-           details_order.push({name:'Organização licitante',key:'tendering_organization'}) 
+        if(!item.company_logo_url){
+           details_order.push({name:'Organização',key:'tendering_organization'}) 
         }
 
         details_order.push({name:'Província',key:'province'})
@@ -576,7 +577,7 @@ function handleDocumentClick(event) {
         
         <div class="details">
              ${details}
-             ${item.comapny_logo_url ? `<div class="cp_logo"><img width="37" height="37" src="https://drive.google.com/uc?export=view&id=1NPCN6F9B51A65cQN9zA4XuKGY805LDCY"><span>${item.tendering_organization}</span></div>` :''}
+             ${item.company_logo_url ? `<div class="cp_logo"><div class="logo"><img width="37" height="37" src="https://drive.google.com/uc?export=view&id=${item.company_logo_url}"></div><span>${item.tendering_organization}</span></div>` :''}
         </div>
 
         ${/*count_found_details  > 2 ||*/ data.profile.admin ? `<div class="show-more" onclick="show_tender_details('${item.id}')">
