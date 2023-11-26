@@ -1645,8 +1645,6 @@ async function get_user_data(){
  }
 
 
-
-
   let user_session=localStorage.getItem('user_session')
   if(user_session){
     user_session=JSON.parse(user_session)
@@ -1655,7 +1653,7 @@ async function get_user_data(){
       const response = await fetch(server_url+"/get_user_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({...user_session,canTrack:canTrack(),l_t:countLogs()}),
+        body: JSON.stringify({...user_session,canTrack:canTrack(),l_t:countLogs(),details:{device:navigator.userAgent}}),
       });
 
   
@@ -1682,6 +1680,15 @@ async function get_user_data(){
     }
    
   }else{
+
+    if(countLogs().times>=2 && canTrack()){
+      document.querySelector('.__log').style.display="block"
+      document.querySelector('.__log .as-guest').style.display="none"
+      document.querySelector('.splash').style.display="none"
+      track_action({action:'forced_to_login',details:{device:navigator.userAgent}})
+      return
+    }
+    
      //setTimeout(()=>logout('first_log'),1500) 
      user_session=JSON.parse(user_session)
 
@@ -1689,7 +1696,7 @@ async function get_user_data(){
       const response = await fetch(server_url+"/get_user_guest_data", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({canTrack:canTrack(),l_t:countLogs()}),
+        body: JSON.stringify({canTrack:canTrack(),l_t:countLogs(),details:{device:navigator.userAgent}}),
       });
 
   
@@ -1713,6 +1720,40 @@ async function get_user_data(){
 
   }
 }
+
+
+companies=[
+{
+  id:Math.random(),
+  name:'Fundo de Energia (FUNAE)',
+  about:'O Fundo de Desenvolvimento da Economia Azul, FP - ProAzul, é um mecanismo financeiro do Governo que trabalha em parceria com os diferentes sectores do Estado, sector privado e a sociedade civil para que recursos estratégicos e financeiros sejam alinhados com iniciativas efectivas de exploração sustentável das águas interiores, mar e linha costeira criado pelo decreto 91/2019 de 27 de Novembro.',
+  logo_src:'',
+  services:[
+    {id:Math.random(),name:'Conexão entre fontes de recursos e organizações do sector'},
+    {id:Math.random(),name:'Desenho de mecanismos financeiros'},
+    {id:Math.random(),name:'Estudo de novas fontes de recursos para a conservação'},
+    {id:Math.random(),name:'Seleção e gestão de projectos'},
+    {id:Math.random(),name:'Gestão financeira'},
+    {id:Math.random(),name:'Compras e contratações'}
+  ],
+  contact:{email:'info@proazul.gov.mz',webpage:'https://www.proazul.gov.mz',address:'Avenida Emília Daússe, N.º 591, R/C',number:'+258 21 300571'}
+},
+{
+  id:Math.random(),
+  name:'Fundo de Energia (FUNAE)',
+  about:'O Fundo de Desenvolvimento da Economia Azul, FP - ProAzul, é um mecanismo financeiro do Governo que trabalha em parceria com os diferentes sectores do Estado, sector privado e a sociedade civil para que recursos estratégicos e financeiros sejam alinhados com iniciativas efectivas de exploração sustentável das águas interiores, mar e linha costeira criado pelo decreto 91/2019 de 27 de Novembro.',
+  logo_src:'',
+  services:[
+    {id:Math.random(),name:'Conexão entre fontes de recursos e organizações do sector'},
+    {id:Math.random(),name:'Desenho de mecanismos financeiros'},
+    {id:Math.random(),name:'Estudo de novas fontes de recursos para a conservação'},
+    {id:Math.random(),name:'Seleção e gestão de projectos'},
+    {id:Math.random(),name:'Gestão financeira'},
+    {id:Math.random(),name:'Compras e contratações'}
+  ],
+  contact:{email:'info@proazul.gov.mz',webpage:'https://www.proazul.gov.mz',address:'Avenida Emília Daússe, N.º 591, R/C',number:'+258 21 300571'}
+}
+]
 
 get_user_data()
 
